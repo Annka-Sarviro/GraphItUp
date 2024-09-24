@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Діаграми і Таблиці</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div>
+      <label for="chartType">Тип діаграми:</label>
+      <select id="chartType">
+        <option value="bar">Стовпчикова</option>
+        <option value="pie">Кругова</option>
+        <option value="line">Лінійна</option>
+      </select>
+      <button id="drawChart">Побудувати діаграму</button>
+      <select id="palette-selector">
+        <option value="1">Palette 1</option>
+        <option value="2">Palette 2</option>
+        <option value="3">Palette 3</option>
+        <option value="4">Palette 4</option>
+        <option value="5">Palette 5</option>
+      </select>
+    </div>
+    <svg id="chartSVG" width="400" height="300"></svg>
+    <table id="dataTable"></table>
+    <script src="./src/js/palletSwitcher.js"></script>
+    <script src="./src/js/chart.js" defer></script>
+  </body>
+</html>

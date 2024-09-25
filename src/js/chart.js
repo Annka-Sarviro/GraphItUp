@@ -25,6 +25,14 @@ function drawChart(type) {
   const total = values.reduce((acc, val) => acc + val, 0);
 
   chartSVG.innerHTML = "";
+  const oneColor = getComputedStyle(document.body).getPropertyValue("--one-color").trim();
+  const twoColor = getComputedStyle(document.body).getPropertyValue("--two-color").trim();
+  const threeColor = getComputedStyle(document.body).getPropertyValue("--three-color").trim();
+  const fourColor = getComputedStyle(document.body).getPropertyValue("--four-color").trim();
+  const fiveColor = getComputedStyle(document.body).getPropertyValue("--five-color").trim();
+
+  const colors = [oneColor, twoColor, threeColor, fourColor, fiveColor];
+  console.log(colors);
   if (type === "bar") {
     const maxVal = Math.max(...values);
     const barWidth = chartSVG.clientWidth / values.length;
@@ -36,7 +44,7 @@ function drawChart(type) {
       rect.setAttribute("y", chartSVG.clientHeight - barHeight);
       rect.setAttribute("width", barWidth - 10);
       rect.setAttribute("height", barHeight);
-      rect.setAttribute("fill", "#4CAF50");
+      rect.setAttribute("fill", colors[index % colors.length]);
       chartSVG.appendChild(rect);
 
       // Додаємо підписи
@@ -149,8 +157,13 @@ function drawChart(type) {
   }
 }
 
-document.getElementById("chartType").addEventListener("change", e => {
-  chartType = e.target.value;
+const radioButtons = document.querySelectorAll('input[name="chartType"]');
+
+radioButtons.forEach(radio => {
+  radio.addEventListener("change", e => {
+    chartType = e.target.value;
+    console.log("Тип діаграми:", chartType); // Виводимо вибраний тип діаграми
+  });
 });
 
 document.getElementById("drawChart").addEventListener("click", () => {

@@ -4,28 +4,73 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Діаграми і Таблиці</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="./styles.css" />
   </head>
-  <body>
-    <div>
-      <label for="chartType">Тип діаграми:</label>
-      <select id="chartType">
-        <option value="bar">Стовпчикова</option>
-        <option value="pie">Кругова</option>
-        <option value="line">Лінійна</option>
-      </select>
-      <button id="drawChart">Побудувати діаграму</button>
-      <select id="palette-selector">
-        <option value="1">Palette 1</option>
-        <option value="2">Palette 2</option>
-        <option value="3">Palette 3</option>
-        <option value="4">Palette 4</option>
-        <option value="5">Palette 5</option>
-      </select>
-    </div>
-    <svg id="chartSVG" width="400" height="300"></svg>
-    <table id="dataTable"></table>
+  <body class="palette-1">
+    <header class="header">
+      <div class="container">
+        <div class="btn_wrapper">
+          <button id="themeToggle" class="theme-toggle">
+            <span class="material-icons" id="themeIcon">dark_mode</span>
+          </button>
+
+          <div class="palette-container">
+            <button id="palette-btn" class="palette-btn">
+              <span class="material-icons">palette</span>
+            </button>
+
+            <ul id="palette-dropdown" class="dropdown hidden">
+              <li data-palette="1" class="dropdown-item palette-1 active"></li>
+              <li data-palette="2" class="dropdown-item palette-2"></li>
+              <li data-palette="3" class="dropdown-item palette-3"></li>
+              <li data-palette="4" class="dropdown-item palette-4"></li>
+              <li data-palette="5" class="dropdown-item palette-5"></li>
+            </ul>
+          </div>
+        </div>
+        <div class="logo_wrapper">
+          <a href="/"><img src="/logo.svg" alt="логотип" class="logo" width="50" height="50" /></a>
+          <h2 class="header-title">Graph It Up</h2>
+        </div>
+      </div>
+    </header>
+    <main>
+      <section class="section">
+        <div class="container">
+          <div>
+            <h2 class="settings-title">Налаштування</h2>
+            <label>Тип діаграми:</label>
+            <div>
+              <input type="radio" id="chartTypeBar" name="chartType" value="bar" />
+              <label for="chartTypeBar">Стовпчикова</label>
+            </div>
+            <div>
+              <input type="radio" id="chartTypePie" name="chartType" value="pie" />
+              <label for="chartTypePie">Кругова</label>
+            </div>
+            <div>
+              <input type="radio" id="chartTypeLine" name="chartType" value="line" />
+              <label for="chartTypeLine">Лінійна</label>
+            </div>
+            <button id="drawChart">Побудувати діаграму</button>
+          </div>
+          <svg id="chartSVG" width="400" height="300"></svg>
+        </div>
+      </section>
+      <section class="preview-section">
+        <div class="container scrollable-container">
+          <table id="dataTable"></table>
+        </div>
+      </section>
+      <!-- <table id="dataTable"></table> -->
+    </main>
+    <footer>
+      <div class="footer"><p>Design @ Sarviro Ganna</p></div>
+    </footer>
+    <script type="module" src="/src/js/themeToggle.js"></script>
     <script src="./src/js/palletSwitcher.js"></script>
     <script src="./src/js/chart.js" defer></script>
   </body>

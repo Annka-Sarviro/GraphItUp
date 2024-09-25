@@ -75,6 +75,8 @@
   /* Effects style */
   --background-transition: background-color 0.3s ease;
   --all-transition: all 0.3s ease;
+  --box-shadow-dark: 0 2px 10px rgba(0, 0, 0, 0.1);
+  --box-shadow-white: 0 0 34px rgba(255, 255, 255, 0.5);
 
   /* Pallet colors */
   /* Palette 1: MFA Color Scheme */
@@ -142,6 +144,46 @@
   --button-accent-background: var(--accent-color-hover);
   --button-accent-background-hover: var(--accent-color-dark);
   --background-box-color: var(--dark-grey);
+}
+
+body.palette-1 {
+  --one-color: var(--color-palette-1-primary-blue);
+  --two-color: var(--color-palette-1-secondary-blue);
+  --three-color: var(--color-palette-1-golden-accent);
+  --four-color: var(--color-palette-1-light-gray);
+  --five-color: var(--color-palette-1-error-red);
+}
+
+body.palette-2 {
+  --one-color: var(--color-palette-2-blue);
+  --two-color: var(--color-palette-2-orange);
+  --three-color: var(--color-palette-2-green);
+  --four-color: var(--color-palette-2-red);
+  --five-color: var(--color-palette-2-purple);
+}
+
+body.palette-3 {
+  --one-color: var(--color-palette-3-cool-blue);
+  --two-color: var(--color-palette-3-warm-orange);
+  --three-color: var(--color-palette-3-warm-red);
+  --four-color: var(--color-palette-3-teal);
+  --five-color: var(--color-palette-3-green);
+}
+
+body.palette-4 {
+  --one-color: var(--color-palette-4-purple);
+  --two-color: var(--color-palette-4-blue);
+  --three-color: var(--color-palette-4-red);
+  --four-color: var(--color-palette-4-yellow);
+  --five-color: var(--color-palette-4-green);
+}
+
+body.palette-5 {
+  --one-color: var(--color-palette-5-purple);
+  --two-color: var(--color-palette-5-blue);
+  --three-color: var(--color-palette-5-red);
+  --four-color: var(--color-palette-5-yellow);
+  --five-color: var(--color-palette-5-green);
 }
 
 h1,
@@ -328,7 +370,7 @@ th {
 
 .logo {
   outline: 2px solid var(--white);
-  box-shadow: 0 0 34px rgba(255, 255, 255, 0.5);
+  box-shadow: var(--box-shadow-white);
 }
 
 .header-title {
@@ -353,7 +395,7 @@ th {
 }
 
 .theme-toggle:hover {
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  box-shadow: var(--box-shadow-white);
 }
 .theme-toggle .material-icons {
   font-size: 24px;
@@ -400,23 +442,14 @@ th {
 
 .loader {
   margin-top: 20px;
-  border: 5px solid #f3f3f3; /* Light grey */
-  border-top: 5px solid #3498db; /* Blue */
+  border: 5px solid var(--grey); /* Light grey */
+  border-top: 5px solid var(--secondary-blue); /* Blue */
   border-radius: 50%;
   width: 40px;
   height: 40px;
   animation: spin 1s linear infinite;
   position: absolute;
   z-index: 2;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
 }
 
 .file-icons {
@@ -488,4 +521,166 @@ th {
 /* ----------Footer------------ */
 .footer {
   text-align: center;
+}
+
+/* ---------- Chart page ------------- */
+.settings-title {
+  margin-bottom: 20px;
+}
+.btn_wrapper {
+  display: flex;
+  column-gap: 10px;
+}
+
+.palette-btn {
+  position: relative;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  border: 1px solid grey;
+  background: transparent;
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.palette-btn:hover {
+  box-shadow: var(--box-shadow-white);
+}
+
+.palette-btn .material-icons {
+  font-size: 24px;
+  color: var(--grey);
+}
+
+.palette-container {
+  position: relative;
+}
+
+.dropdown {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background: var(--background-color);
+  border: 1px solid var(--grey);
+  border-radius: 5px;
+  width: 150px;
+  padding: 0;
+  box-shadow: var(--box-shadow-dark);
+  z-index: 10;
+  overflow: hidden;
+}
+
+.dropdown .dropdown-item {
+  height: 30px;
+  cursor: pointer;
+  border: 2px solid var(--grey);
+  opacity: 0.5;
+  transition: opacity 0.3s;
+}
+
+.dropdown-item:hover,
+.dropdown-item.active {
+  opacity: 1; /* Змінюємо непрозорість для активного та елемента на hover */
+}
+
+.dropdown-item.active {
+  background-color: rgba(255, 255, 255, 0.1); /* Додаємо легкий фон для активного елемента */
+}
+
+.dropdown-item:hover {
+  opacity: 1; /* Під час наведенні змінюємо непрозорість */
+}
+
+.dropdown .dropdown-item:hover {
+  background-color: var(--grey);
+}
+
+.dropdown-item.palette-1 {
+  background: linear-gradient(
+    to right,
+    var(--color-palette-1-primary-blue) 20%,
+    var(--color-palette-1-secondary-blue) 20%,
+    var(--color-palette-1-secondary-blue) 40%,
+    var(--color-palette-1-golden-accent) 40%,
+    var(--color-palette-1-golden-accent) 60%,
+    var(--color-palette-1-light-gray) 60%,
+    var(--color-palette-1-light-gray) 80%,
+    var(--color-palette-1-error-red) 80%
+  );
+}
+
+.dropdown-item.palette-2 {
+  background: linear-gradient(
+    to right,
+    var(--color-palette-2-blue) 20%,
+    var(--color-palette-2-orange) 20%,
+    var(--color-palette-2-orange) 40%,
+    var(--color-palette-2-green) 40%,
+    var(--color-palette-2-green) 60%,
+    var(--color-palette-2-red) 60%,
+    var(--color-palette-2-red) 80%,
+    var(--color-palette-2-purple) 80%
+  );
+}
+
+.dropdown-item.palette-3 {
+  background: linear-gradient(
+    to right,
+    var(--color-palette-3-cool-blue) 20%,
+    var(--color-palette-3-warm-orange) 20%,
+    var(--color-palette-3-warm-orange) 40%,
+    var(--color-palette-3-warm-red) 40%,
+    var(--color-palette-3-warm-red) 60%,
+    var(--color-palette-3-teal) 60%,
+    var(--color-palette-3-teal) 80%,
+    var(--color-palette-3-green) 80%
+  );
+}
+
+.dropdown-item.palette-4 {
+  background: linear-gradient(
+    to right,
+    var(--color-palette-4-blue) 20%,
+    var(--color-palette-4-yellow) 20%,
+    var(--color-palette-4-yellow) 40%,
+    var(--color-palette-4-green) 40%,
+    var(--color-palette-4-green) 60%,
+    var(--color-palette-4-red) 60%,
+    var(--color-palette-4-red) 80%,
+    var(--color-palette-4-purple) 80%
+  );
+}
+
+.dropdown-item.palette-5 {
+  background: linear-gradient(
+    to right,
+    var(--color-palette-5-blue) 20%,
+    var(--color-palette-5-yellow) 20%,
+    var(--color-palette-5-yellow) 40%,
+    var(--color-palette-5-green) 40%,
+    var(--color-palette-5-green) 60%,
+    var(--color-palette-5-red) 60%,
+    var(--color-palette-5-red) 80%,
+    var(--color-palette-5-purple) 80%
+  );
+}
+
+.hidden {
+  display: none;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

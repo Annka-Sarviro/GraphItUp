@@ -87,10 +87,8 @@ function displayJSON(data, preview) {
   const thead = document.createElement("thead");
   const tbody = document.createElement("tbody");
 
-  // Отримуємо заголовки з ключів першого об'єкта
   const headers = Object.keys(data[0]);
 
-  // Створюємо заголовок таблиці
   const trHead = document.createElement("tr");
   headers.forEach(header => {
     const th = document.createElement("th");
@@ -122,7 +120,6 @@ function displayTable(data, preview) {
   const thead = document.createElement("thead");
   const tbody = document.createElement("tbody");
 
-  // Обробляємо перший рядок як заголовок (thead)
   const headerRow = data[0];
   const trHead = document.createElement("tr");
   headerRow.forEach(cell => {

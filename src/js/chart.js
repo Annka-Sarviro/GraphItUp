@@ -32,7 +32,7 @@ function drawChart(type) {
   const fiveColor = getComputedStyle(document.body).getPropertyValue("--five-color").trim();
 
   const colors = [oneColor, twoColor, threeColor, fourColor, fiveColor];
-  console.log(colors);
+
   if (type === "bar") {
     const maxVal = Math.max(...values);
     const barWidth = chartSVG.clientWidth / values.length;
@@ -162,7 +162,6 @@ const radioButtons = document.querySelectorAll('input[name="chartType"]');
 radioButtons.forEach(radio => {
   radio.addEventListener("change", e => {
     chartType = e.target.value;
-    console.log("Тип діаграми:", chartType); // Виводимо вибраний тип діаграми
   });
 });
 

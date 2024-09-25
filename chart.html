@@ -40,23 +40,23 @@
     <main>
       <section class="section">
         <div class="container">
-          <div>
+          <div class="settings">
             <h2 class="settings-title">Налаштування</h2>
-            <label>Тип діаграми:</label>
-            <div>
-              <input type="radio" id="chartTypeBar" name="chartType" value="bar" />
+            <div class="type-wrapper">
+              <p class="type-title">Тип діаграми:</p>
+
+              <input type="radio" id="chartTypeBar" name="chartType" value="bar" checked />
               <label for="chartTypeBar">Стовпчикова</label>
-            </div>
-            <div>
+
               <input type="radio" id="chartTypePie" name="chartType" value="pie" />
               <label for="chartTypePie">Кругова</label>
-            </div>
-            <div>
+
               <input type="radio" id="chartTypeLine" name="chartType" value="line" />
               <label for="chartTypeLine">Лінійна</label>
             </div>
-            <button id="drawChart">Побудувати діаграму</button>
+            <button id="drawChart" class="button-secondary">Побудувати діаграму</button>
           </div>
+
           <svg id="chartSVG" width="400" height="300"></svg>
         </div>
       </section>
@@ -65,7 +65,6 @@
           <table id="dataTable"></table>
         </div>
       </section>
-      <!-- <table id="dataTable"></table> -->
     </main>
     <footer>
       <div class="footer"><p>Design @ Sarviro Ganna</p></div>

@@ -21,7 +21,8 @@
   --dark-grey: #121212;
   --black: #000;
   --disabled: #a2a0a0;
-  --background-color: var(--grey);
+  --background-color: var(--white);
+  --background-box-color: var(--grey);
   --text-color: var(--black);
 
   /* Font-sizing */
@@ -140,6 +141,7 @@
   --button-background-hover: var(--secondary-blue-hover);
   --button-accent-background: var(--accent-color-hover);
   --button-accent-background-hover: var(--accent-color-dark);
+  --background-box-color: var(--dark-grey);
 }
 
 h1,
@@ -373,7 +375,7 @@ th {
   row-gap: var(--spacing-md);
   justify-content: center;
   align-items: center;
-  background-color: var(--white);
+  background-color: var(--background-box-color);
 }
 
 .dropbox.blurred {
@@ -419,7 +421,7 @@ th {
 
 .file-icons {
   font-size: 80px;
-  color: var(--dark-grey);
+  color: var(--text-color);
 }
 
 .file_wrap {
@@ -428,15 +430,62 @@ th {
   flex-direction: column;
   align-items: center;
 }
-ю .open-chart-page-btn {
+.open-chart-page-btn {
   transition: var(--background-transition);
 }
 .open-chart-page-btn-disabled {
   pointer-events: none;
   background-color: var(--disabled);
 }
+/* --------- Preview section --------- */
+.preview-section {
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+  }
+  th,
+  td {
+    border: 1px solid var(--disabled);
+    padding: 8px;
+    text-align: left;
+  }
+  th {
+    background-color: var(--background-box-color);
+  }
+  thead {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+  }
+}
 
-/* Footer */
+.scrollable-container {
+  max-height: 365px;
+  height: auto;
+  overflow-y: auto;
+}
+
+.scrollable-container::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+.scrollable-container::-webkit-scrollbar-thumb {
+  background-color: var(--disabled);
+  border-radius: 6px;
+}
+
+.scrollable-container::-webkit-scrollbar-thumb:hover {
+  background-color: var(--dark-grey);
+}
+
+.scrollable-container::-webkit-scrollbar-track {
+  background-color: var(--grey);
+  border-radius: 6px;
+}
+
+/* ----------Footer------------ */
 .footer {
   text-align: center;
 }

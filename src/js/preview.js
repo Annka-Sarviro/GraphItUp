@@ -76,21 +76,73 @@ function handleJSONFile(file, preview) {
 }
 
 function displayJSON(data, preview) {
-  const jsonPre = document.createElement("pre");
-  jsonPre.textContent = JSON.stringify(data, null, 2);
-  preview.appendChild(jsonPre);
-}
+  if (!Array.isArray(data) || data.length === 0) {
+    const errorMessage = document.createElement("div");
+    errorMessage.textContent = "Немає даних для відображення.";
+    preview.appendChild(errorMessage);
+    return;
+  }
 
-function displayTable(data, preview) {
   const table = document.createElement("table");
-  data.forEach((row, rowIndex) => {
+  const thead = document.createElement("thead");
+  const tbody = document.createElement("tbody");
+
+  // Отримуємо заголовки з ключів першого об'єкта
+  const headers = Object.keys(data[0]);
+
+  // Створюємо заголовок таблиці
+  const trHead = document.createElement("tr");
+  headers.forEach(header => {
+    const th = document.createElement("th");
+    th.textContent = header;
+    trHead.appendChild(th);
+  });
+  thead.appendChild(trHead);
+  table.appendChild(thead);
+
+  data.forEach(item => {
+    const tr = document.createElement("tr");
+    headers.forEach(header => {
+      const td = document.createElement("td");
+      td.textContent = item[header] !== undefined ? item[header] : "";
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+
+  table.appendChild(tbody);
+  preview.appendChild(table);
+}
+function displayTable(data, preview) {
+  const titleElement = document.createElement("h2");
+  titleElement.textContent = "Попередній перегляд";
+  preview.appendChild(titleElement);
+
+  const table = document.createElement("table");
+  const thead = document.createElement("thead");
+  const tbody = document.createElement("tbody");
+
+  // Обробляємо перший рядок як заголовок (thead)
+  const headerRow = data[0];
+  const trHead = document.createElement("tr");
+  headerRow.forEach(cell => {
+    const th = document.createElement("th");
+    th.textContent = cell || "";
+    trHead.appendChild(th);
+  });
+  thead.appendChild(trHead);
+  table.appendChild(thead);
+
+  data.slice(1).forEach(row => {
     const tr = document.createElement("tr");
     row.forEach(cell => {
-      const td = rowIndex === 0 ? document.createElement("th") : document.createElement("td");
+      const td = document.createElement("td");
       td.textContent = cell || "";
       tr.appendChild(td);
     });
-    table.appendChild(tr);
+    tbody.appendChild(tr);
   });
+
+  table.appendChild(tbody);
   preview.appendChild(table);
 }

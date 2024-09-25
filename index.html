@@ -17,7 +17,7 @@
         </button>
 
         <div class="logo_wrapper">
-          <a href="/"><img src="./public/logo.svg" alt="логотип" class="logo" width="50" height="50" /></a>
+          <a href="/"><img src="/logo.svg" alt="логотип" class="logo" width="50" height="50" /></a>
 
           <h2 class="header-title">Graph It Up</h2>
         </div>
@@ -35,14 +35,20 @@
             <input class="drop-input" type="file" id="fileInput" accept=".csv, .xls, .xlsx, .json" />
             <p>Перетягніть файл сюди або натисніть, щоб вибрати</p>
             <div id="loader" class="loader" style="display: none"></div>
-         
           </div>
-            
-            <div class="button-container"></div>
-            <a href="chart.html" id="openChartWindow" class="button-secondary open-chart-page-btn open-chart-page-btn-disabled">Відкрити діаграми</a>
-          </div>
+
+          <div class="button-container"></div>
+          <a
+            href="chart.html"
+            id="openChartWindow"
+            class="button-secondary open-chart-page-btn open-chart-page-btn-disabled"
+            >Відкрити діаграми</a
+          >
+        </div>
+      </section>
+      <section class="preview-section">
+        <div class="container scrollable-container">
           <div class="preview" id="preview"></div>
-        
         </div>
       </section>
     </main>

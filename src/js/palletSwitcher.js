@@ -1,3 +1,5 @@
+import { drawChart } from "./chart";
+
 const paletteBtn = document.getElementById("palette-btn");
 const paletteDropdown = document.getElementById("palette-dropdown");
 
@@ -8,8 +10,6 @@ paletteBtn.addEventListener("click", function (event) {
 
 document.querySelectorAll("#palette-dropdown li").forEach(function (item) {
   item.addEventListener("click", function () {
-    const palette = this.getAttribute("data-palette");
-
     paletteDropdown.classList.add("hidden");
   });
 });
@@ -19,16 +19,6 @@ document.addEventListener("click", function (event) {
     paletteDropdown.classList.add("hidden");
   }
 });
-document.addEventListener("DOMContentLoaded", () => {
-  const paletteSelector = document.getElementById("palette-selector");
-  paletteSelector.addEventListener("change", event => {
-    const selectedPalette = event.target.value;
-    document.body.classList.remove(`palette-${selectedPalette}`);
-    void document.body.offsetWidth;
-    document.body.classList.add(`palette-${selectedPalette}`);
-    drawChart(chartType);
-  });
-});
 
 document.querySelectorAll("#palette-dropdown li").forEach(function (item) {
   item.addEventListener("click", function () {
@@ -37,10 +27,10 @@ document.querySelectorAll("#palette-dropdown li").forEach(function (item) {
     });
 
     this.classList.add("active");
-    const palette = this.getAttribute("data-palette");
+    const selectedPalette = this.getAttribute("data-palette");
     document.body.className = document.body.className.replace(/\bpalette-\S+/g, "");
-    document.body.classList.add(`palette-${palette}`);
-
+    document.body.classList.add(`palette-${selectedPalette}`);
+    let chartType = localStorage.getItem("chartType");
     drawChart(chartType);
 
     document.getElementById("palette-dropdown").classList.add("hidden");

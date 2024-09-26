@@ -47,7 +47,8 @@ export function renderLegend(categories, colors, axisY) {
 }
 
 function highlightCategory(category, isHovering) {
-  const bars = document.querySelectorAll("rect");
+  const bars = document.querySelectorAll("rect, path");
+
   bars.forEach(bar => {
     const categoryValue = bar.getAttribute("data-category");
     if (categoryValue === category) {

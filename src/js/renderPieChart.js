@@ -40,6 +40,7 @@ export function renderPieChart(values, labels, categories, colors, chartSVG, axi
 
     path.setAttribute("d", pathData);
     path.setAttribute("fill", fillColor);
+    path.setAttribute("data-category", categories[index]);
     const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
     chartSVG.appendChild(path);
 

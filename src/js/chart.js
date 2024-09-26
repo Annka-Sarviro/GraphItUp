@@ -84,7 +84,7 @@ export function drawChart(type, currentPage = 1) {
   const categories = data[0].slice(1).map(category => (category === "" ? "" : category));
   const labels = paginatedData.map(row => row[0]);
 
-  const values = paginatedData.map(row => row.slice(1).map(value => (typeof value === "number" ? value : 0)));
+  const values = paginatedData.map(row => row.slice(1));
 
   const oneColor = getComputedStyle(document.body).getPropertyValue("--one-color").trim();
   const twoColor = getComputedStyle(document.body).getPropertyValue("--two-color").trim();
@@ -98,7 +98,7 @@ export function drawChart(type, currentPage = 1) {
     chartSVG.innerHTML = "";
 
     renderChart(type, values, labels, categories, colors, chartSVG, axisX, axisY);
-    renderLegend(categories, colors, axisY);
+    renderLegend(categories, colors, axisY, labels);
 
     hideLoader();
   }, 1500);

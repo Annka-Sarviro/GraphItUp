@@ -472,6 +472,11 @@ main {
   }
 }
 
+.highlight.extra {
+  background-color: var(--accent-color-dark);
+  transition: var(--background-transition);
+}
+
 .scrollable-container {
   max-height: 565px;
   height: auto;

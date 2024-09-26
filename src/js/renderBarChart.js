@@ -8,7 +8,6 @@ function darkenColor(color, percent) {
 
   return `#${(0x1000000 + (R < 255 ? (R < 1 ? 0 : R) : 255) * 0x10000 + (G < 255 ? (G < 1 ? 0 : G) : 255) * 0x100 + (B < 255 ? (B < 1 ? 0 : B) : 255)).toString(16).slice(1)}`;
 }
-
 export function renderBarChart(dataset, labels, categories, colors, chartSVG, axisX, axisY) {
   const padding = 40;
   const chartWidth = chartSVG.clientWidth - 2 * padding;
@@ -17,7 +16,7 @@ export function renderBarChart(dataset, labels, categories, colors, chartSVG, ax
   const availableWidth = chartWidth - 60;
   const barWidth = (availableWidth / labels.length) * 0.8;
 
-  const maxVal = Math.max(...dataset.flat());
+  const maxVal = Math.max(...dataset.flat().filter(value => !isNaN(value) && value !== "")); // Filter valid numbers
 
   const yearGap = barWidth * 0.2;
 
@@ -54,6 +53,7 @@ export function renderBarChart(dataset, labels, categories, colors, chartSVG, ax
 
     const sortedData = yearData
       .map((value, index) => ({ value, category: categories[index] }))
+      .filter(({ value }) => !isNaN(value) && value !== "") // Skip non-numeric and empty values
       .sort((a, b) => b.value - a.value);
 
     sortedData.forEach(({ value, category }, valueIndex) => {
@@ -72,23 +72,29 @@ export function renderBarChart(dataset, labels, categories, colors, chartSVG, ax
     });
 
     sortedData.forEach(({ value }, valueIndex) => {
-      const barHeight = (value / maxVal) * chartHeight;
-      const valueText = document.createElementNS("http://www.w3.org/2000/svg", "text");
-      valueText.setAttribute("x", xOffset + barWidth / 2);
-      valueText.setAttribute("y", padding + chartHeight - barHeight - 5);
-      valueText.setAttribute("fill", "#000");
-      valueText.textContent = value.toFixed(0);
-      valueText.setAttribute("text-anchor", "middle");
-      chartSVG.appendChild(valueText);
+      if (!isNaN(value) && value !== "") {
+        // Ensure the value is numeric and not an empty string
+        const barHeight = (value / maxVal) * chartHeight;
+        const valueText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        valueText.setAttribute("x", xOffset + barWidth / 2);
+        valueText.setAttribute("y", padding + chartHeight - barHeight - 5);
+        valueText.setAttribute("fill", "#000");
+        valueText.textContent = value.toFixed(0);
+        valueText.setAttribute("text-anchor", "middle");
+        chartSVG.appendChild(valueText);
+      }
     });
 
-    const labelText = document.createElementNS("http://www.w3.org/2000/svg", "text");
-    labelText.setAttribute("x", xOffset + barWidth / 2);
-    labelText.setAttribute("y", chartSVG.clientHeight - padding + 15);
-    labelText.setAttribute("fill", "var(--text-color)");
-    labelText.textContent = labels[yearIndex];
-    labelText.setAttribute("text-anchor", "middle");
-    chartSVG.appendChild(labelText);
+    if (labels[yearIndex] !== "") {
+      // Skip empty string labels
+      const labelText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      labelText.setAttribute("x", xOffset + barWidth / 2);
+      labelText.setAttribute("y", chartSVG.clientHeight - padding + 15);
+      labelText.setAttribute("fill", "var(--text-color)");
+      labelText.textContent = labels[yearIndex];
+      labelText.setAttribute("text-anchor", "middle");
+      chartSVG.appendChild(labelText);
+    }
   });
 
   const xLabel = document.createElementNS("http://www.w3.org/2000/svg", "text");

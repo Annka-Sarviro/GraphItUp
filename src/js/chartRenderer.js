@@ -8,7 +8,7 @@ export function renderChart(type, values, labels, categories, colors, chartSVG, 
   } else if (type === "pie") {
     renderPieChart(values, labels, categories, colors, chartSVG, axisX, axisY);
   } else if (type === "line") {
-    renderLineChart(values, labels, colors, chartSVG);
+    renderLineChart(values, labels, categories, colors, chartSVG, axisX, axisY);
   } else {
     console.error("Unknown chart type");
   }

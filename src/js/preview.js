@@ -1,4 +1,5 @@
 import * as XLSX from "xlsx";
+const openChartPageBtn = document.querySelector(".open-chart-page-btn");
 
 export function displayPreview(file, preview) {
   const fileType = file.type;
@@ -15,6 +16,7 @@ export function displayPreview(file, preview) {
   } else {
     const fileInfo = document.createElement("div");
     fileInfo.textContent = `Невідомий файл: ${file.name}`;
+    openChartPageBtn.classList.add("open-chart-page-btn-disabled");
     preview.appendChild(fileInfo);
   }
 }
@@ -31,8 +33,18 @@ function handleCSVFile(file, preview) {
         return !isNaN(trimmedCell) && trimmedCell !== "" ? Number(trimmedCell) : trimmedCell;
       })
     );
-    displayTable(rows, preview);
-    localStorage.setItem("chartData", JSON.stringify(rows));
+
+    const nonEmptyRows = rows.filter(row => row.some(cell => cell !== ""));
+    if (nonEmptyRows.length === 0) {
+      const errorMessage = document.createElement("div");
+      errorMessage.textContent = "Немає даних для відображення.";
+      openChartPageBtn.classList.add("open-chart-page-btn-disabled");
+      preview.appendChild(errorMessage);
+      return;
+    }
+
+    displayTable(nonEmptyRows, preview);
+    localStorage.setItem("chartData", JSON.stringify(nonEmptyRows));
   };
 
   reader.readAsText(file);
@@ -60,16 +72,24 @@ function handleJSONFile(file, preview) {
   const reader = new FileReader();
 
   reader.onload = function (e) {
-    const jsonData = JSON.parse(e.target.result);
-    displayJSON(jsonData, preview);
-    const transformedData = [
-      Object.keys(jsonData[0]),
-      ...jsonData.map(obj =>
-        Object.values(obj).map(value => (typeof value === "number" ? value : isNaN(value) ? value : Number(value)))
-      ),
-    ];
+    try {
+      const jsonData = JSON.parse(e.target.result);
+      displayJSON(jsonData, preview);
 
-    localStorage.setItem("chartData", JSON.stringify(transformedData));
+      const transformedData = [
+        Object.keys(jsonData[0]),
+        ...jsonData.map(obj =>
+          Object.values(obj).map(value => (typeof value === "number" ? value : isNaN(value) ? value : Number(value)))
+        ),
+      ];
+
+      localStorage.setItem("chartData", JSON.stringify(transformedData));
+    } catch (error) {
+      const errorMessage = document.createElement("div");
+      errorMessage.textContent = "Помилка: Невалідний JSON.";
+      openChartPageBtn.classList.add("open-chart-page-btn-disabled");
+      preview.appendChild(errorMessage);
+    }
   };
 
   reader.readAsText(file);
@@ -80,6 +100,7 @@ function displayJSON(data, preview) {
     const errorMessage = document.createElement("div");
     errorMessage.textContent = "Немає даних для відображення.";
     preview.appendChild(errorMessage);
+    openChartPageBtn.classList.add("open-chart-page-btn-disabled");
     return;
   }
 
@@ -112,6 +133,14 @@ function displayJSON(data, preview) {
   preview.appendChild(table);
 }
 function displayTable(data, preview) {
+  if (!Array.isArray(data) || data.length === 0) {
+    const errorMessage = document.createElement("div");
+    errorMessage.textContent = "Немає даних для відображення.";
+    openChartPageBtn.classList.add("open-chart-page-btn-disabled");
+    preview.appendChild(errorMessage);
+    return;
+  }
+
   const titleElement = document.createElement("h2");
   titleElement.textContent = "Попередній перегляд";
   preview.appendChild(titleElement);

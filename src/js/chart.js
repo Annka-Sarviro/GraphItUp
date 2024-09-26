@@ -1,4 +1,5 @@
 import { renderChart } from "./chartRenderer";
+import { renderLegend } from "./renderLegend";
 
 const chartSVG = document.getElementById("chartSVG");
 let chartType = "bar";
@@ -21,8 +22,11 @@ function renderTable(data) {
 }
 
 export function drawChart(type) {
+  const axisX = data.slice(0).map(row => row[0])[0];
+  const axisY = data.slice(0).map(row => row[1])[0];
+  const categories = data[0].slice(1);
   const labels = data.slice(1).map(row => row[0]);
-  const values = data.slice(1).map(row => row[1]);
+  const values = data.slice(1).map(row => row.slice(1));
 
   chartSVG.innerHTML = "";
   const oneColor = getComputedStyle(document.body).getPropertyValue("--one-color").trim();
@@ -32,7 +36,8 @@ export function drawChart(type) {
   const fiveColor = getComputedStyle(document.body).getPropertyValue("--five-color").trim();
 
   const colors = [oneColor, twoColor, threeColor, fourColor, fiveColor];
-  renderChart(type, values, labels, colors, chartSVG);
+  renderChart(type, values, labels, categories, colors, chartSVG, axisX, axisY);
+  renderLegend(labels, colors, axisY);
 }
 
 const radioButtons = document.querySelectorAll('input[name="chartType"]');

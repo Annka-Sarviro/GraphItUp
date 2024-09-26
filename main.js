@@ -12,7 +12,7 @@ const supportedExtensions = ["csv", "xls", "xlsx", "json"];
 function setupFileInputHandler() {
   fileInput.addEventListener("change", e => {
     const file = e.target.files[0];
-    console.log(file);
+
     handleFile(file);
   });
 }

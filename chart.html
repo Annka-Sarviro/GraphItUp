@@ -54,10 +54,18 @@
               <input type="radio" id="chartTypeLine" name="chartType" value="line" />
               <label for="chartTypeLine">Лінійна</label>
             </div>
+            <div id="scale-wrapper" class="scale-wrapper">
+              <p class="scale-title">Масштаб осі Y:</p>
+
+              <input id="scale-toggle" class="scale-toggle" type="text" placeholder="Выберите число" />
+              <div id="scale-menu" class="scale-menu hidden scrollable-container"></div>
+            </div>
             <button id="drawChart" class="button-secondary">Побудувати діаграму</button>
           </div>
-
-          <svg id="chartSVG" width="400" height="300"></svg>
+          <div class="chartSVG-wrapper">
+            <svg id="chartSVG" width="400" height="300"></svg>
+            <div id="legend" class="legend"></div>
+          </div>
         </div>
       </section>
       <section class="preview-section">
@@ -67,8 +75,9 @@
       </section>
     </main>
     <footer>
-      <div class="footer"><p>Design @ Sarviro Ganna</p></div>
+      <div class="footer"><p>@ GraphItUp</p></div>
     </footer>
+    <script type="module" src="/src/js/scaleSwitcher.js"></script>
     <script type="module" src="/src/js/themeToggle.js"></script>
     <script type="module" src="./src/js/palletSwitcher.js"></script>
     <script type="module" src="./src/js/chart.js" defer></script>

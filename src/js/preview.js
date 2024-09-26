@@ -58,11 +58,16 @@ function handleXLSFile(file, preview) {
     const workbook = XLSX.read(data, { type: "array" });
     const sheetName = workbook.SheetNames[0];
     const worksheet = workbook.Sheets[sheetName];
-    const json = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
-    displayTable(json, preview);
+    const json = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: "" });
 
-    localStorage.setItem("chartData", JSON.stringify(json));
+    const filledJson = json.map(row => row.map(cell => (cell === null || cell === undefined ? "" : cell)));
+
+    const nonEmptyRows = filledJson.filter(row => row.some(cell => cell !== ""));
+
+    displayTable(nonEmptyRows, preview);
+
+    localStorage.setItem("chartData", JSON.stringify(nonEmptyRows));
   };
 
   reader.readAsArrayBuffer(file);

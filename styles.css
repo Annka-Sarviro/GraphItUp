@@ -746,6 +746,8 @@ main {
   }
 }
 .legend {
+  display: flex;
+  flex-direction: column;
   gap: 10px;
   width: fit-content;
   height: fit-content;
@@ -753,4 +755,26 @@ main {
   border-radius: 5px;
   border: 1px solid var(--grey);
   box-shadow: var(--box-shadow-dark);
+}
+
+.legend span {
+  position: relative;
+  display: inline-block; /* Required for the pseudo-element */
+}
+
+.legend span::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px; /* Adjust thickness as needed */
+  background: var(--accent-color-hover); /* Use your desired color */
+  transform: scaleX(0); /* Initially hidden */
+  transition: transform 0.3s ease; /* Smooth transition */
+  transform-origin: left; /* Animate from left */
+}
+
+.legend span:hover::after {
+  transform: scaleX(1); /* Show underline on hover */
 }

@@ -24,9 +24,11 @@ function renderTable(data) {
 export function drawChart(type) {
   const axisX = data.slice(0).map(row => row[0])[0];
   const axisY = data.slice(0).map(row => row[1])[0];
-  const categories = data[0].slice(1);
+  const categories = data[0].slice(1).map(category => (category === "" ? "" : category));
   const labels = data.slice(1).map(row => row[0]);
-  const values = data.slice(1).map(row => row.slice(1));
+
+  // Replace text values in values with 0
+  const values = data.slice(1).map(row => row.slice(1).map(value => (typeof value === "number" ? value : 0)));
 
   chartSVG.innerHTML = "";
   const oneColor = getComputedStyle(document.body).getPropertyValue("--one-color").trim();
@@ -37,7 +39,7 @@ export function drawChart(type) {
 
   const colors = [oneColor, twoColor, threeColor, fourColor, fiveColor];
   renderChart(type, values, labels, categories, colors, chartSVG, axisX, axisY);
-  renderLegend(labels, colors, axisY);
+  renderLegend(categories, colors, axisY);
 }
 
 const radioButtons = document.querySelectorAll('input[name="chartType"]');

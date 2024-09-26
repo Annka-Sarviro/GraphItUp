@@ -25,6 +25,7 @@
   --disabled: #a2a0a0;
   --background-color: var(--white);
   --background-box-color: var(--grey);
+  --background-accent-color: #ffd8056b;
   --text-color: var(--black);
 
   /* Font-sizing */
@@ -460,6 +461,11 @@ main {
     top: 0;
     z-index: 3;
   }
+
+  .highlight {
+    background-color: var(--background-accent-color);
+    transition: var(--background-transition);
+  }
 }
 
 .scrollable-container {
@@ -740,6 +746,36 @@ main {
   flex-direction: column;
 }
 
+.chartSVG-wrapper.blurred svg {
+  backdrop-filter: blur(5px);
+  background-color: rgba(255, 255, 255, 0.5);
+}
+.chartSVG-wrapper.blurred div {
+  position: relative;
+}
+
+.chartSVG-wrapper .chart-thumb {
+  opacity: 0;
+  transition: var(--all-transition);
+}
+.chartSVG-wrapper.blurred .chart-thumb {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: var(--grey);
+  opacity: 0.4;
+  z-index: 4;
+}
+
+.chartSVG-wrapper #chartLoader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+  z-index: 10;
+}
+
 @media (min-width: 1024px) {
   .chartSVG-wrapper {
     flex-direction: row;
@@ -777,4 +813,27 @@ main {
 
 .legend span:hover::after {
   transform: scaleX(1); /* Show underline on hover */
+}
+
+.pagination-wrapper {
+  display: flex;
+  justify-content: center;
+  column-gap: 10px;
+}
+
+.pagination-wrapper button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 10px;
+}
+
+.pagination-wrapper .material-icons {
+  font-size: 24px;
+  color: var(--button-accent-background);
+  transition: var(--all-transition);
+}
+
+.pagination-wrapper .material-icons:hover {
+  color: var(--button-accent-background-hover);
 }

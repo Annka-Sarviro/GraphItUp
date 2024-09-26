@@ -1,10 +1,10 @@
 function darkenColor(color, percent) {
   console.log(color);
-  const num = parseInt(color.slice(1), 16); // Convert hex to number
-  const amt = Math.round(2.55 * percent); // Calculate amount to darken
-  const R = (num >> 16) + amt; // Get red
-  const G = ((num >> 8) & 0x00ff) + amt; // Get green
-  const B = (num & 0x0000ff) + amt; // Get blue
+  const num = parseInt(color.slice(1), 16);
+  const amt = Math.round(2.55 * percent);
+  const R = (num >> 16) + amt;
+  const G = ((num >> 8) & 0x00ff) + amt;
+  const B = (num & 0x0000ff) + amt;
 
   return `#${(0x1000000 + (R < 255 ? (R < 1 ? 0 : R) : 255) * 0x10000 + (G < 255 ? (G < 1 ? 0 : G) : 255) * 0x100 + (B < 255 ? (B < 1 ? 0 : B) : 255)).toString(16).slice(1)}`;
 }
@@ -31,19 +31,18 @@ export function renderBarChart(dataset, labels, categories, colors, chartSVG, ax
     horizontalLine.setAttribute("y1", y);
     horizontalLine.setAttribute("x2", chartWidth + padding);
     horizontalLine.setAttribute("y2", y);
-    horizontalLine.setAttribute("stroke", "#e0e0e0");
+    horizontalLine.setAttribute("stroke", "var(--grey)");
     chartSVG.appendChild(horizontalLine);
 
     const labelValue = (i * gridSize).toFixed(0);
     const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
     label.setAttribute("x", padding - 10);
     label.setAttribute("y", y + 5);
-    label.setAttribute("fill", "#000");
+    label.setAttribute("fill", "var(--text-color)");
     label.textContent = labelValue;
     chartSVG.appendChild(label);
   }
 
-  // Create a mapping of categories to colors
   const categoryColorMap = categories.reduce((acc, category, index) => {
     acc[category] = colors[index % colors.length];
     return acc;
@@ -53,7 +52,6 @@ export function renderBarChart(dataset, labels, categories, colors, chartSVG, ax
     let xOffset = totalPadding + yearIndex * (barWidth + yearGap);
     let cumulativeHeight = 0;
 
-    // Pair category with value and sort
     const sortedData = yearData
       .map((value, index) => ({ value, category: categories[index] }))
       .sort((a, b) => b.value - a.value);
@@ -62,22 +60,18 @@ export function renderBarChart(dataset, labels, categories, colors, chartSVG, ax
       const barHeight = (value / maxVal) * chartHeight;
       const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
       rect.setAttribute("data-category", category);
-      const barColor =
-        valueIndex >= 5
-          ? darkenColor(categoryColorMap[category], -20) // Darken by 20%
-          : categoryColorMap[category];
+      const barColor = valueIndex >= 5 ? darkenColor(categoryColorMap[category], -20) : categoryColorMap[category];
       rect.setAttribute("x", xOffset);
       rect.setAttribute("y", padding + chartHeight - barHeight);
       rect.setAttribute("width", barWidth);
       rect.setAttribute("height", barHeight);
-      rect.setAttribute("fill", barColor); // Use color from mapping
+      rect.setAttribute("fill", barColor);
       chartSVG.appendChild(rect);
 
       cumulativeHeight += barHeight;
     });
 
-    // Add value labels above bars
-    sortedData.forEach(({ value, category }, valueIndex) => {
+    sortedData.forEach(({ value }, valueIndex) => {
       const barHeight = (value / maxVal) * chartHeight;
       const valueText = document.createElementNS("http://www.w3.org/2000/svg", "text");
       valueText.setAttribute("x", xOffset + barWidth / 2);
@@ -88,21 +82,19 @@ export function renderBarChart(dataset, labels, categories, colors, chartSVG, ax
       chartSVG.appendChild(valueText);
     });
 
-    // Label for each year
     const labelText = document.createElementNS("http://www.w3.org/2000/svg", "text");
     labelText.setAttribute("x", xOffset + barWidth / 2);
     labelText.setAttribute("y", chartSVG.clientHeight - padding + 15);
-    labelText.setAttribute("fill", "#000");
+    labelText.setAttribute("fill", "var(--text-color)");
     labelText.textContent = labels[yearIndex];
     labelText.setAttribute("text-anchor", "middle");
     chartSVG.appendChild(labelText);
   });
 
-  // X-axis label
   const xLabel = document.createElementNS("http://www.w3.org/2000/svg", "text");
   xLabel.setAttribute("x", chartSVG.clientWidth / 2);
   xLabel.setAttribute("y", chartSVG.clientHeight - padding + 40);
-  xLabel.setAttribute("fill", "#000");
+  xLabel.setAttribute("fill", "var(--text-color)");
   xLabel.textContent = axisX;
   xLabel.setAttribute("text-anchor", "middle");
   chartSVG.appendChild(xLabel);

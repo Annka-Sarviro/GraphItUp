@@ -1,10 +1,28 @@
-export function renderPieChart(values, labels, colors, chartSVG) {
-  let startAngle = 0;
-  const total = values.reduce((a, b) => a + b, 0);
+function darkenColor(color, percent) {
+  const num = parseInt(color.slice(1), 16);
+  const amt = Math.round(2.55 * percent);
+  const R = (num >> 16) + amt;
+  const G = ((num >> 8) & 0x00ff) + amt;
+  const B = (num & 0x0000ff) + amt;
 
-  values.forEach((value, index) => {
+  return `#${(0x1000000 + (R < 255 ? (R < 1 ? 0 : R) : 255) * 0x10000 + (G < 255 ? (G < 1 ? 0 : G) : 255) * 0x100 + (B < 255 ? (B < 1 ? 0 : B) : 255)).toString(16).slice(1)}`;
+}
+
+export function renderPieChart(values, labels, categories, colors, chartSVG, axisX, axisY, radius = 300) {
+  const rawValues = values[0].map(value => parseInt(value) || 0);
+
+  const total = rawValues.reduce((a, b) => a + b, 0);
+
+  if (total === 0) {
+    console.error("Total is zero. Cannot render pie chart.");
+
+    return;
+  }
+
+  let startAngle = 0;
+
+  rawValues.forEach((value, index) => {
     const sliceAngle = (value / total) * 2 * Math.PI;
-    const radius = 150;
     const x = chartSVG.clientWidth / 2;
     const y = chartSVG.clientHeight / 2;
     const x1 = x + radius * Math.cos(startAngle);
@@ -14,30 +32,37 @@ export function renderPieChart(values, labels, colors, chartSVG) {
 
     const pathData = `M ${x} ${y} L ${x1} ${y1} A ${radius} ${radius} 0 ${sliceAngle > Math.PI ? 1 : 0} 1 ${x2} ${y2} Z`;
     const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    let darkenPercent = 0;
+    if (rawValues.length > 5) {
+      darkenPercent = Math.floor(index / 5) * 10;
+    }
+    const fillColor = darkenColor(colors[index % colors.length], darkenPercent);
+
     path.setAttribute("d", pathData);
-    path.setAttribute("fill", colors[index % 5]);
+    path.setAttribute("fill", fillColor);
+    const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
     chartSVG.appendChild(path);
 
+    if (value !== 0) {
+      const midAngle = startAngle + sliceAngle / 2;
+      const labelX = x + (radius + 20) * Math.cos(midAngle);
+      const labelY = y + (radius + 20) * Math.sin(midAngle);
+      text.setAttribute("x", labelX);
+      text.setAttribute("y", labelY);
+      text.setAttribute("fill", "var(--text-color)");
+      text.setAttribute("text-anchor", "middle");
+      text.textContent = value;
+      chartSVG.appendChild(text);
+    }
+    chartSVG.appendChild(text);
     startAngle += sliceAngle;
-  });
 
-  let legendY = 20;
-  labels.forEach((label, index) => {
-    const legendRect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-    legendRect.setAttribute("x", 10);
-    legendRect.setAttribute("y", legendY);
-    legendRect.setAttribute("width", 15);
-    legendRect.setAttribute("height", 15);
-    legendRect.setAttribute("fill", ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF"][index % 5]);
-    chartSVG.appendChild(legendRect);
-
-    const legendText = document.createElementNS("http://www.w3.org/2000/svg", "text");
-    legendText.setAttribute("x", 30);
-    legendText.setAttribute("y", legendY + 12);
-    legendText.setAttribute("fill", "#000");
-    legendText.textContent = label;
-    chartSVG.appendChild(legendText);
-
-    legendY += 20;
+    const axisXText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    axisXText.setAttribute("x", chartSVG.clientWidth / 2);
+    axisXText.setAttribute("y", y + radius + 40);
+    axisXText.setAttribute("fill", "var(--text-color)");
+    axisXText.setAttribute("text-anchor", "middle");
+    axisXText.textContent = `${labels[0]}  ${axisX}`;
+    chartSVG.appendChild(axisXText);
   });
 }

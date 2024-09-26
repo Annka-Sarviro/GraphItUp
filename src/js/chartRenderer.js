@@ -6,7 +6,7 @@ export function renderChart(type, values, labels, categories, colors, chartSVG, 
   if (type === "bar") {
     renderBarChart(values, labels, categories, colors, chartSVG, axisX, axisY);
   } else if (type === "pie") {
-    renderPieChart(values, labels, colors, chartSVG);
+    renderPieChart(values, labels, categories, colors, chartSVG, axisX, axisY);
   } else if (type === "line") {
     renderLineChart(values, labels, colors, chartSVG);
   } else {

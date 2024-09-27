@@ -1,4 +1,4 @@
-import { drawChart } from "../chart";
+import { drawChart } from "../../chart/chart";
 
 const paletteBtn = document.getElementById("palette-btn");
 const paletteDropdown = document.getElementById("palette-dropdown");

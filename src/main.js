@@ -1,5 +1,4 @@
-import "./chart.html";
-import { displayPreview } from "./src/scripts/preview";
+import { displayPreview } from "./scripts/preview";
 
 const fileInput = document.getElementById("fileInput");
 const dropbox = document.getElementById("dropbox");

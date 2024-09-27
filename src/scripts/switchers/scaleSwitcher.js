@@ -1,4 +1,4 @@
-import { drawChart } from "../chart";
+import { drawChart } from "../../chart/chart";
 
 let gridSize = localStorage.getItem("gridSize") || 0;
 const dropdownToggle = document.getElementById("scale-toggle");

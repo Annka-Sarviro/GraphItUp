@@ -1,6 +1,6 @@
-import { renderChart } from "./chartRender/chartRenderer";
-import { renderLegend } from "./chartRender/renderLegend";
-import { cleanData } from "./helpers/cleanData";
+import { renderChart } from "../scripts/chartRender/chartRenderer";
+import { renderLegend } from "../scripts/chartRender/renderLegend";
+import { cleanData } from "../scripts/helpers/cleanData";
 
 const loader = document.getElementById("chartLoader");
 const chartSVGWrapper = document.querySelector(".chartSVG-wrapper");

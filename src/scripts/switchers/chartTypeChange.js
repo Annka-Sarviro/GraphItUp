@@ -18,8 +18,10 @@ radioButtons.forEach(radio => {
 });
 radioButtons.forEach(radio => {
   radio.addEventListener("change", e => {
+    localStorage.setItem("currentPage", 1);
     chartType = e.target.value;
     localStorage.setItem("chartType", chartType);
+
     drawChart(chartType);
     renderTable(data);
   });
@@ -32,6 +34,7 @@ labels.forEach(label => {
     const associatedRadio = document.getElementById(label.getAttribute("for"));
 
     if (associatedRadio) {
+      localStorage.setItem("currentPage", 1);
       associatedRadio.checked = true;
       chartType = associatedRadio.value;
       localStorage.setItem("chartType", chartType);

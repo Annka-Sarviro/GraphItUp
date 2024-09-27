@@ -682,7 +682,11 @@ main {
   cursor: pointer;
   padding: 2px;
 }
-
+.back-icon {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
 /* ----- Cart ----------- */
 
 .chart-container {

@@ -1,6 +1,4 @@
-import { darkenColor } from "../helpers/darkenColor";
-
-export function renderLineChart(values, labels, categories, colors, chartSVG, axisX, axisY) {
+export function renderLineChart(values, labels, categories, chartSVG, axisX, axisY) {
   chartSVG.innerHTML = "";
   const data = JSON.parse(localStorage.getItem("chartData")) || [];
   const headersRow = data[0].slice(1);
@@ -8,16 +6,12 @@ export function renderLineChart(values, labels, categories, colors, chartSVG, ax
   const chartWidth = chartSVG.clientWidth - 2 * padding;
   const chartHeight = chartSVG.clientHeight - 2 * padding;
 
-  const processedValues = values.map(series =>
-    series.map(value => parseInt(value)).filter(value => !isNaN(value) && value !== "")
-  );
-
-  const maxVal = Math.max(...processedValues.flat());
+  const maxVal = Math.max(...values.flat());
 
   const gridSize = parseInt(localStorage.getItem("gridSize")) || 10;
   const numberOfLines = Math.floor(maxVal / gridSize);
 
-  const stepX = chartWidth / (processedValues[0].length + 1);
+  const stepX = chartWidth / (values[0].length + 1);
   const stepY = chartHeight / maxVal;
 
   for (let i = 0; i <= numberOfLines; i++) {
@@ -41,7 +35,7 @@ export function renderLineChart(values, labels, categories, colors, chartSVG, ax
   }
 
   const gridGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
-  processedValues[0].forEach((_, index) => {
+  values[0].forEach((_, index) => {
     const xPos = padding + stepX * (index + 1);
 
     const verticalLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
@@ -54,16 +48,17 @@ export function renderLineChart(values, labels, categories, colors, chartSVG, ax
   });
   chartSVG.insertBefore(gridGroup, chartSVG.firstChild);
 
-  const transposedValues = values[0].map((_, colIndex) => processedValues.map(row => row[colIndex]));
+  const transposedValues = values[0].map((_, colIndex) => values.map(row => row[colIndex]));
   transposedValues.forEach((series, seriesIndex) => {
-    let darkenPercent = Math.floor(seriesIndex / 5) * 10;
-    const lineColor = darkenColor(colors[seriesIndex % colors.length], darkenPercent);
-    console.log(lineColor, series, seriesIndex);
+    const storedColors = JSON.parse(localStorage.getItem("headerColors")) || {};
+    const category = categories[seriesIndex];
+    let lineColor = storedColors[category];
     let pathData = "";
     let started = false;
 
     series.forEach((value, index) => {
-      if (value === undefined || value === null || isNaN(value)) {
+      console.log(value);
+      if (value === undefined || value === null || isNaN(value) || !value) {
         started = false;
         return;
       }
@@ -166,7 +161,7 @@ export function renderLineChart(values, labels, categories, colors, chartSVG, ax
     });
   });
 
-  processedValues[0].forEach((_, index) => {
+  values[0].forEach((_, index) => {
     const xPos = padding + stepX * (index + 1);
     const labelText = document.createElementNS("http://www.w3.org/2000/svg", "text");
     labelText.setAttribute("x", xPos);

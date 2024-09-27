@@ -1,6 +1,7 @@
 import { renderChart } from "../scripts/chartRender/chartRenderer";
 import { renderLegend } from "../scripts/chartRender/renderLegend";
 import { cleanData } from "../scripts/helpers/cleanData";
+import { generateColorsForHeaderRow } from "../scripts/helpers/colorMap";
 
 const loader = document.getElementById("chartLoader");
 const chartSVGWrapper = document.querySelector(".chartSVG-wrapper");
@@ -8,7 +9,12 @@ const chartSVGWrapper = document.querySelector(".chartSVG-wrapper");
 let currentPage = parseInt(localStorage.getItem("currentPage"));
 let chartType = localStorage.getItem("chartType");
 const itemsPerPage = 6;
-const data = JSON.parse(localStorage.getItem("chartData")) || [];
+const parsedata = JSON.parse(localStorage.getItem("chartData")) || [];
+const data = parsedata.map(row =>
+  row.filter((_, colIndex) => {
+    return parsedata.some(row => !isNaN(row[colIndex]) && row[colIndex] !== "");
+  })
+);
 
 if (!currentPage) {
   currentPage = 1;
@@ -36,6 +42,8 @@ export function renderTable(data) {
 
   const headerRow = data[0];
   const headerTr = document.createElement("tr");
+  const categoriesRow = headerRow.slice(1);
+  generateColorsForHeaderRow(categoriesRow);
 
   headerRow.forEach(cell => {
     const headerCell = document.createElement("th");
@@ -49,6 +57,7 @@ export function renderTable(data) {
 
   for (let i = 1; i < totalRows; i++) {
     const row = data[i];
+
     const tr = document.createElement("tr");
 
     const isCurrentPageRow = i >= startIndex && i < endIndex;
@@ -57,9 +66,11 @@ export function renderTable(data) {
       tr.classList.add("highlight");
     }
 
-    row.forEach(cell => {
+    row.forEach((cell, ind) => {
       const cellElement = document.createElement("td");
       cellElement.textContent = cell;
+      cellElement.setAttribute("data-X", row[0]);
+      cellElement.setAttribute("data-Y", headerRow[ind]);
       tr.appendChild(cellElement);
     });
     table.appendChild(tr);
@@ -83,19 +94,11 @@ export function drawChart() {
 
   const values = paginatedData.map(row => row.slice(1));
 
-  const oneColor = getComputedStyle(document.body).getPropertyValue("--one-color").trim();
-  const twoColor = getComputedStyle(document.body).getPropertyValue("--two-color").trim();
-  const threeColor = getComputedStyle(document.body).getPropertyValue("--three-color").trim();
-  const fourColor = getComputedStyle(document.body).getPropertyValue("--four-color").trim();
-  const fiveColor = getComputedStyle(document.body).getPropertyValue("--five-color").trim();
-
-  const colors = [oneColor, twoColor, threeColor, fourColor, fiveColor];
-
   setTimeout(() => {
     chartSVG.innerHTML = "";
 
-    renderChart(type, values, labels, categories, colors, chartSVG, axisX, axisY);
-    renderLegend(categories, colors, axisY, type);
+    renderChart(type, values, labels, categories, chartSVG, axisX, axisY);
+    renderLegend(categories, axisY, type);
 
     hideLoader();
   }, 1500);

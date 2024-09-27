@@ -1,6 +1,6 @@
 import { drawChart } from "../../chart/chart";
 
-let gridSize = localStorage.getItem("gridSize") || 0;
+let gridSize = localStorage.getItem("gridSize") || 10;
 const dropdownToggle = document.getElementById("scale-toggle");
 const dropdownMenu = document.getElementById("scale-menu");
 

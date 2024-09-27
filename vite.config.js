@@ -3,6 +3,7 @@ import { resolve } from "path";
 
 export default defineConfig({
   root: "./src",
+  base: "/GraphItUp/",
   build: {
     outDir: "../dist",
     emptyOutDir: true,

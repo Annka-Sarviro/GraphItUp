@@ -1,6 +1,4 @@
-import { darkenColor } from "../helpers/darkenColor";
-
-export function renderPieChart(values, labels, categories, colors, chartSVG, axisX, axisY, radius = 300) {
+export function renderPieChart(values, labels, categories, chartSVG, axisX, axisY, radius = 300) {
   const rawValues = values[0].map(value => parseInt(value)).filter(value => !isNaN(value) && value !== "");
 
   const total = rawValues.reduce((a, b) => a + b, 0);
@@ -12,7 +10,7 @@ export function renderPieChart(values, labels, categories, colors, chartSVG, axi
 
   let startAngle = 0;
 
-  rawValues.forEach((value, index) => {
+  values[0].forEach((value, index) => {
     const sliceAngle = (value / total) * 2 * Math.PI;
     const x = chartSVG.clientWidth / 2;
     const y = chartSVG.clientHeight / 2;
@@ -24,15 +22,21 @@ export function renderPieChart(values, labels, categories, colors, chartSVG, axi
     const pathData = `M ${x} ${y} L ${x1} ${y1} A ${radius} ${radius} 0 ${sliceAngle > Math.PI ? 1 : 0} 1 ${x2} ${y2} Z`;
     const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
 
-    let darkenPercent = 0;
-    if (rawValues.length > 5) {
-      darkenPercent = Math.floor(index / 5) * 10;
-    }
-    const fillColor = darkenColor(colors[index % colors.length], darkenPercent);
+    const storedColors = JSON.parse(localStorage.getItem("headerColors")) || {};
+    const category = categories[index];
+    let fillColor = storedColors[category];
 
     path.setAttribute("d", pathData);
     path.setAttribute("fill", fillColor);
     path.setAttribute("data-category", categories[index]);
+    path.setAttribute("data-year", labels[0]);
+    path.addEventListener("mouseenter", () => {
+      highlightCategory(path, true);
+    });
+
+    path.addEventListener("mouseleave", () => {
+      highlightCategory(path, false);
+    });
     chartSVG.appendChild(path);
 
     if (value !== 0) {
@@ -58,4 +62,43 @@ export function renderPieChart(values, labels, categories, colors, chartSVG, axi
     axisXText.textContent = `${labels[0]}  ${axisX}`;
     chartSVG.appendChild(axisXText);
   });
+}
+
+function highlightCategory(path, isHovering) {
+  const category = path.getAttribute("data-category");
+  const year = path.getAttribute("data-year");
+  const cells = document.querySelectorAll("#dataTable td");
+  const selectedCells = document.querySelectorAll("#dataTable  tr.highlight td");
+
+  if (isHovering) {
+    path.style.cursor = "pointer";
+    path.setAttribute("stroke", "var(--accent-color-hover)");
+    path.setAttribute("stroke-width", "3");
+    if (selectedCells.length > 0) {
+      selectedCells.forEach(cell => {
+        const cellCategory = cell.getAttribute("data-Y");
+        const cellYear = cell.getAttribute("data-X");
+
+        if (cellCategory === category && cellYear === year) {
+          cell.classList.add("highlight");
+        }
+      });
+    } else {
+      cells.forEach(cell => {
+        const cellCategory = cell.getAttribute("data-Y");
+        const cellYear = cell.getAttribute("data-X");
+
+        if (cellCategory === category && cellYear === year) {
+          cell.classList.add("highlight");
+        }
+      });
+    }
+  } else {
+    path.setAttribute("stroke", "none");
+    path.setAttribute("stroke-width", "initial");
+
+    cells.forEach(cell => {
+      cell.classList.remove("highlight");
+    });
+  }
 }

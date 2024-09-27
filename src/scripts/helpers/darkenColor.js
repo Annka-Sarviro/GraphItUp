@@ -1,6 +1,11 @@
 export function darkenColor(color, percent) {
+  if (!color) {
+    return "rgba(0, 0, 0, 0)";
+  }
+
   const num = parseInt(color.slice(1), 16);
   const amt = Math.round(2.55 * percent);
+
   const R = (num >> 16) + amt;
   const G = ((num >> 8) & 0x00ff) + amt;
   const B = (num & 0x0000ff) + amt;

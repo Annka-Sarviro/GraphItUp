@@ -1,6 +1,4 @@
-import { darkenColor } from "../helpers/darkenColor";
-
-export function renderBarChart(dataset, labels, categories, colors, chartSVG, axisX, axisY) {
+export function renderBarChart(dataset, labels, categories, chartSVG, axisX, axisY) {
   const padding = 40;
   const chartWidth = chartSVG.clientWidth - 2 * padding;
   const chartHeight = chartSVG.clientHeight - 2 * padding;
@@ -34,31 +32,38 @@ export function renderBarChart(dataset, labels, categories, colors, chartSVG, ax
     chartSVG.appendChild(label);
   }
 
-  const categoryColorMap = categories.reduce((acc, category, index) => {
-    acc[category] = colors[index % colors.length];
-    return acc;
-  }, {});
-
   dataset.forEach((yearData, yearIndex) => {
     let xOffset = totalPadding + yearIndex * (barWidth + yearGap);
     let cumulativeHeight = 0;
 
     const sortedData = yearData
       .map((value, index) => ({ value, category: categories[index] }))
-      .filter(({ value }) => !isNaN(value) && value !== "") // Skip non-numeric and empty values
+      .filter(({ value }) => !isNaN(value) && value !== "")
       .sort((a, b) => b.value - a.value);
 
     sortedData.forEach(({ value, category }, valueIndex) => {
       const barHeight = (value / maxVal) * chartHeight;
       const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
       rect.setAttribute("data-category", category);
-      const barColor = valueIndex >= 5 ? darkenColor(categoryColorMap[category], -20) : categoryColorMap[category];
+      rect.setAttribute("data-year", labels[yearIndex]);
+      const storedColors = JSON.parse(localStorage.getItem("headerColors")) || {};
+
+      let barColor = storedColors[category];
+
       rect.setAttribute("x", xOffset);
       rect.setAttribute("y", padding + chartHeight - barHeight);
       rect.setAttribute("width", barWidth);
       rect.setAttribute("height", barHeight);
       rect.setAttribute("fill", barColor);
       chartSVG.appendChild(rect);
+
+      rect.addEventListener("mouseenter", () => {
+        highlightCategory(rect, true);
+      });
+
+      rect.addEventListener("mouseleave", () => {
+        highlightCategory(rect, false);
+      });
 
       cumulativeHeight += barHeight;
     });
@@ -96,4 +101,43 @@ export function renderBarChart(dataset, labels, categories, colors, chartSVG, ax
   xLabel.textContent = axisX;
   xLabel.setAttribute("text-anchor", "middle");
   chartSVG.appendChild(xLabel);
+}
+
+function highlightCategory(rect, isHovering) {
+  const category = rect.getAttribute("data-category");
+  const year = rect.getAttribute("data-year");
+  const cells = document.querySelectorAll("#dataTable td");
+  const selectedCells = document.querySelectorAll("#dataTable  tr.highlight td");
+
+  if (isHovering) {
+    rect.style.cursor = "pointer";
+    rect.setAttribute("stroke", "var(--accent-color-hover)");
+    rect.setAttribute("stroke-width", "3");
+    if (selectedCells.length > 0) {
+      selectedCells.forEach(cell => {
+        const cellCategory = cell.getAttribute("data-Y");
+        const cellYear = cell.getAttribute("data-X");
+
+        if (cellCategory === category && cellYear === year) {
+          cell.classList.add("highlight");
+        }
+      });
+    } else {
+      cells.forEach(cell => {
+        const cellCategory = cell.getAttribute("data-Y");
+        const cellYear = cell.getAttribute("data-X");
+
+        if (cellCategory === category && cellYear === year) {
+          cell.classList.add("highlight");
+        }
+      });
+    }
+  } else {
+    rect.setAttribute("stroke", "none");
+    rect.setAttribute("stroke-width", "initial");
+
+    cells.forEach(cell => {
+      cell.classList.remove("highlight");
+    });
+  }
 }

@@ -1,8 +1,10 @@
 import { darkenColor } from "../helpers/darkenColor";
 
-export function renderLegend(categories, colors, axisY, type = "bar") {
+export function renderLegend(categories, axisY, type = "bar") {
   const legendContainer = document.getElementById("legend");
   legendContainer.innerHTML = "";
+
+  const storedColors = JSON.parse(localStorage.getItem("headerColors")) || {};
 
   categories.forEach((category, index) => {
     const legendItem = document.createElement("div");
@@ -13,9 +15,10 @@ export function renderLegend(categories, colors, axisY, type = "bar") {
 
     const colorBox = document.createElement("div");
     colorBox.style.width = "15px";
+    colorBox.style.minWidth = "15px";
     colorBox.style.height = "15px";
 
-    const boxColor = index >= 5 ? darkenColor(colors[index % colors.length], -20) : colors[index % colors.length];
+    const boxColor = storedColors[category] || "#cccccc";
 
     colorBox.style.backgroundColor = boxColor;
     colorBox.style.marginRight = "10px";

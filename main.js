@@ -1,4 +1,4 @@
-import { displayPreview } from "./src/js/preview";
+import { displayPreview } from "./src/scripts/preview";
 
 const fileInput = document.getElementById("fileInput");
 const dropbox = document.getElementById("dropbox");

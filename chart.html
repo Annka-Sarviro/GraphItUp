@@ -45,22 +45,27 @@
             <div class="type-wrapper">
               <p class="type-title">Тип діаграми:</p>
 
-              <input type="radio" id="chartTypeBar" name="chartType" value="bar" checked />
-              <label for="chartTypeBar">Стовпчикова</label>
+              <label for="chartTypeBar">
+                <input type="radio" id="chartTypeBar" name="chartType" value="bar" />
+                <span>Стовпчикова</span>
+              </label>
 
-              <input type="radio" id="chartTypePie" name="chartType" value="pie" />
-              <label for="chartTypePie">Кругова</label>
+              <label for="chartTypePie">
+                <input type="radio" id="chartTypePie" name="chartType" value="pie" />
+                <span>Кругова</span>
+              </label>
 
-              <input type="radio" id="chartTypeLine" name="chartType" value="line" />
-              <label for="chartTypeLine">Лінійна</label>
+              <label for="chartTypeLine">
+                <input type="radio" id="chartTypeLine" name="chartType" value="line" />
+                <span> Лінійна </span>
+              </label>
             </div>
             <div id="scale-wrapper" class="scale-wrapper">
               <p class="scale-title">Масштаб осі Y:</p>
 
               <input id="scale-toggle" class="scale-toggle" type="text" placeholder="Выберите число" />
-              <div id="scale-menu" class="scale-menu hidden scrollable-container"></div>
+              <ul id="scale-menu" class="scale-menu hidden scrollable-container"></ul>
             </div>
-            <button id="drawChart" class="button-secondary">Побудувати діаграму</button>
           </div>
           <div class="chartSVG-wrapper">
             <div>
@@ -92,9 +97,10 @@
       <div class="footer"><p>@ GraphItUp</p></div>
     </footer>
 
-    <script type="module" src="/src/js/scaleSwitcher.js"></script>
-    <script type="module" src="/src/js/themeToggle.js"></script>
-    <script type="module" src="./src/js/palletSwitcher.js"></script>
-    <script type="module" src="./src/js/chart.js" defer></script>
+    <script type="module" src="/src/scripts/switchers/chartTypeChange.js"></script>
+    <script type="module" src="/src/scripts/switchers/scaleSwitcher.js"></script>
+    <script type="module" src="/src/scripts/switchers/themeToggle.js"></script>
+    <script type="module" src="./src/scripts/switchers/palletSwitcher.js"></script>
+    <script type="module" src="./src/scripts/chart.js" defer></script>
   </body>
 </html>

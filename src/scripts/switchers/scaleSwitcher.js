@@ -1,4 +1,4 @@
-import { drawChart } from "./chart";
+import { drawChart } from "../chart";
 
 let gridSize = localStorage.getItem("gridSize") || 0;
 const dropdownToggle = document.getElementById("scale-toggle");
@@ -13,7 +13,7 @@ dropdownToggle.addEventListener("click", () => {
 });
 
 for (let i = 10; i <= 500; i += 10) {
-  const menuItem = document.createElement("div");
+  const menuItem = document.createElement("li");
   menuItem.textContent = i;
 
   menuItem.addEventListener("click", () => {

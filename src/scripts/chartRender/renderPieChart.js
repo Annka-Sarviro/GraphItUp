@@ -1,17 +1,7 @@
-function darkenColor(color, percent) {
-  const num = parseInt(color.slice(1), 16);
-  const amt = Math.round(2.55 * percent);
-  const R = (num >> 16) + amt;
-  const G = ((num >> 8) & 0x00ff) + amt;
-  const B = (num & 0x0000ff) + amt;
+import { darkenColor } from "../helpers/darkenColor";
 
-  return `#${(0x1000000 + (R < 255 ? (R < 1 ? 0 : R) : 255) * 0x10000 + (G < 255 ? (G < 1 ? 0 : G) : 255) * 0x100 + (B < 255 ? (B < 1 ? 0 : B) : 255)).toString(16).slice(1)}`;
-}
 export function renderPieChart(values, labels, categories, colors, chartSVG, axisX, axisY, radius = 300) {
-  // Convert values to integers and filter out empty or non-numeric strings
-  const rawValues = values[0]
-    .map(value => parseInt(value)) // Attempt to convert each value to an integer
-    .filter(value => !isNaN(value) && value !== ""); // Only keep valid numbers
+  const rawValues = values[0].map(value => parseInt(value)).filter(value => !isNaN(value) && value !== "");
 
   const total = rawValues.reduce((a, b) => a + b, 0);
 
@@ -34,7 +24,6 @@ export function renderPieChart(values, labels, categories, colors, chartSVG, axi
     const pathData = `M ${x} ${y} L ${x1} ${y1} A ${radius} ${radius} 0 ${sliceAngle > Math.PI ? 1 : 0} 1 ${x2} ${y2} Z`;
     const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
 
-    // Adjust color if there are more than 5 slices
     let darkenPercent = 0;
     if (rawValues.length > 5) {
       darkenPercent = Math.floor(index / 5) * 10;
@@ -46,7 +35,6 @@ export function renderPieChart(values, labels, categories, colors, chartSVG, axi
     path.setAttribute("data-category", categories[index]);
     chartSVG.appendChild(path);
 
-    // Only render label if the value is non-zero
     if (value !== 0) {
       const midAngle = startAngle + sliceAngle / 2;
       const labelX = x + (radius + 20) * Math.cos(midAngle);
@@ -62,7 +50,6 @@ export function renderPieChart(values, labels, categories, colors, chartSVG, axi
 
     startAngle += sliceAngle;
 
-    // Add axis labels at the bottom
     const axisXText = document.createElementNS("http://www.w3.org/2000/svg", "text");
     axisXText.setAttribute("x", chartSVG.clientWidth / 2);
     axisXText.setAttribute("y", y + radius + 40);

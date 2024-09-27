@@ -1,7 +1,19 @@
-import { renderChart } from "./chartRenderer";
-import { renderLegend } from "./renderLegend";
+import { renderChart } from "./chartRender/chartRenderer";
+import { renderLegend } from "./chartRender/renderLegend";
+import { cleanData } from "./helpers/cleanData";
+
 const loader = document.getElementById("chartLoader");
 const chartSVGWrapper = document.querySelector(".chartSVG-wrapper");
+
+let currentPage = parseInt(localStorage.getItem("currentPage"));
+let chartType = localStorage.getItem("chartType");
+const itemsPerPage = 6;
+const data = JSON.parse(localStorage.getItem("chartData")) || [];
+
+if (!currentPage) {
+  currentPage = 1;
+  localStorage.setItem("currentPage", currentPage);
+}
 
 function showLoader() {
   loader.style.display = "block";
@@ -13,25 +25,12 @@ function hideLoader() {
   chartSVGWrapper.classList.remove("blurred");
 }
 
-let chartType = "bar";
-const itemsPerPage = 6;
-let currentPage = 1;
-
-const data = JSON.parse(localStorage.getItem("chartData")) || [];
-
-document.getElementById("drawChart").addEventListener("click", () => {
-  renderTable(data);
-  localStorage.setItem("chartType", chartType);
-  currentPage = 1;
-  drawChart(chartType, currentPage);
-  changePage(0);
-});
-
-function renderTable(data, currentPage = 1) {
-  localStorage.setItem("chartType", chartType);
-  const effectiveItemsPerPage = chartType === "pie" ? 1 : itemsPerPage;
+export function renderTable(data) {
   const table = document.getElementById("dataTable");
   table.innerHTML = "";
+  let currentPage = parseInt(localStorage.getItem("currentPage"));
+  const chartType = localStorage.getItem("chartType") || "bar";
+  const effectiveItemsPerPage = chartType === "pie" ? 1 : itemsPerPage;
 
   const totalRows = data.length;
 
@@ -61,19 +60,15 @@ function renderTable(data, currentPage = 1) {
     row.forEach(cell => {
       const cellElement = document.createElement("td");
       cellElement.textContent = cell;
-      tr.appendChild(cellElement); // Append cells to the current row
+      tr.appendChild(cellElement);
     });
-    table.appendChild(tr); // Append the current row to the table
+    table.appendChild(tr);
   }
 }
-document.getElementById("drawChart").addEventListener("click", () => {
-  renderTable(data, currentPage);
-  localStorage.setItem("chartType", chartType);
-  currentPage = 1;
-  drawChart(chartType, currentPage);
-});
 
-export function drawChart(type, currentPage = 1) {
+export function drawChart() {
+  const type = localStorage.getItem("chartType");
+  let currentPage = parseInt(localStorage.getItem("currentPage"));
   showLoader();
   const effectiveItemsPerPage = type === "pie" ? 1 : itemsPerPage;
   const startIndex = (currentPage - 1) * effectiveItemsPerPage + 1;
@@ -81,7 +76,9 @@ export function drawChart(type, currentPage = 1) {
 
   const axisX = data.slice(0)[0][0];
   const axisY = paginatedData.length > 0 ? paginatedData[0][1] : "";
-  const categories = data[0].slice(1).map(category => (category === "" ? "" : category));
+
+  const cleanedData = cleanData(data);
+  const categories = cleanedData[0].slice(1).map(category => (category === "" ? "" : category));
   const labels = paginatedData.map(row => row[0]);
 
   const values = paginatedData.map(row => row.slice(1));
@@ -98,7 +95,7 @@ export function drawChart(type, currentPage = 1) {
     chartSVG.innerHTML = "";
 
     renderChart(type, values, labels, categories, colors, chartSVG, axisX, axisY);
-    renderLegend(categories, colors, axisY, labels);
+    renderLegend(categories, colors, axisY, type);
 
     hideLoader();
   }, 1500);
@@ -121,41 +118,44 @@ export function drawChart(type, currentPage = 1) {
 }
 
 function changePage(direction) {
-  localStorage.setItem("chartType", chartType);
+  let currentPage = parseInt(localStorage.getItem("currentPage"));
   const effectiveItemsPerPage = chartType === "pie" ? 1 : itemsPerPage;
   const totalPages = chartType === "pie" ? data.length - 1 : Math.ceil(data.length / effectiveItemsPerPage);
-  currentPage += direction;
+  const newPage = currentPage + direction;
 
-  if (currentPage < 1) currentPage = 1;
-  if (currentPage > totalPages) currentPage = totalPages;
-
-  drawChart(chartType, currentPage);
-  renderTable(data, currentPage);
-  document.getElementById("pageInfo").innerText = `${currentPage} з ${totalPages}`;
+  if (newPage < 1) {
+    localStorage.setItem("currentPage", 1);
+  } else if (newPage > totalPages) {
+    localStorage.setItem("currentPage", totalPages);
+  } else {
+    localStorage.setItem("currentPage", newPage);
+  }
+  drawChart(chartType);
+  renderTable(data);
+  let page = localStorage.getItem("currentPage");
+  document.getElementById("pageInfo").innerText = `${page} з ${totalPages}`;
 }
 
-document.getElementById("prevBtn").addEventListener("click", () => changePage(-1));
-document.getElementById("nextBtn").addEventListener("click", () => changePage(1));
+const prevButton = document.getElementById("prevBtn");
+const nextButton = document.getElementById("nextBtn");
 
-document.getElementById("drawChart").addEventListener("click", () => {
-  renderTable(data);
-  localStorage.setItem("chartType", chartType);
-  currentPage = 1;
-  drawChart(chartType, currentPage);
-});
-const radioButtons = document.querySelectorAll('input[name="chartType"]');
-
-radioButtons.forEach(radio => {
-  radio.addEventListener("change", e => {
-    chartType = e.target.value;
+if (!prevButton.dataset.eventAttached) {
+  prevButton.addEventListener("click", event => {
+    console.log("Prev button clicked");
+    event.preventDefault();
+    changePage(-1);
   });
-});
+  prevButton.dataset.eventAttached = true;
+}
 
-document.getElementById("drawChart").addEventListener("click", () => {
-  renderTable(data);
-  localStorage.setItem("chartType", chartType);
-  drawChart(chartType, currentPage);
-});
+if (!nextButton.dataset.eventAttached) {
+  nextButton.addEventListener("click", event => {
+    console.log("Next button clicked");
+    event.preventDefault();
+    changePage(1);
+  });
+  nextButton.dataset.eventAttached = true;
+}
 
 renderTable(data);
-drawChart(chartType, currentPage);
+drawChart(chartType);

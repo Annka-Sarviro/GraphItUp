@@ -1,3 +1,4 @@
+import "./chart.html";
 import { displayPreview } from "./src/scripts/preview";
 
 const fileInput = document.getElementById("fileInput");

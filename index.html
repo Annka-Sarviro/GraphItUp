@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/GraphItUp/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+    <title>GraphItUp</title>
+    <script type="module" crossorigin src="/GraphItUp/assets/index-CO9MQLY0.js"></script>
+    <link rel="stylesheet" crossorigin href="/GraphItUp/assets/index-leaMpwd6.css">
+  </head>
+  <body>
+    <header class="header">
+      <div class="container">
+        <div class="btn_wrapper">
+          <button id="themeToggle" class="theme-toggle">
+            <span class="material-icons" id="themeIcon">dark_mode</span>
+          </button>
+        </div>
+        <div class="logo_wrapper">
+          <a href="/"><img src="/GraphItUp/logo.svg" alt="логотип" class="logo" width="50" height="50" /></a>
+
+          <h2 class="header-title">Graph It Up</h2>
+        </div>
+      </div>
+    </header>
+    <main>
+      <section class="section">
+        <div class="container">
+          <h2 class="title">Виберіть або перетягніть файл</h2>
+
+          <div class="dropbox" id="dropbox">
+            <div id="file_wrap" class="file_wrap"></div>
+            <label for="fileInput" class="button-primary handle-input">Вибрати файл</label>
+
+            <input class="drop-input" type="file" id="fileInput" accept=".csv, .xls, .xlsx, .json" />
+            <p>Перетягніть файл сюди або натисніть, щоб вибрати</p>
+            <div id="loader" class="loader" style="display: none"></div>
+          </div>
+
+          <div class="button-container"></div>
+          <a
+            href="chart.html"
+            id="openChartWindow"
+            class="button-secondary open-chart-page-btn open-chart-page-btn-disabled"
+            >Відкрити діаграми</a
+          >
+        </div>
+      </section>
+      <section class="preview-section">
+        <div class="container"><div id="mainPreview"></div></div>
+
+        <div class="container scrollable-container">
+          <div class="preview" id="preview"></div>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <div class="footer"><p>@ GraphItUp</p></div>
+    </footer>
+
+  </body>
+</html>

@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Діаграми і Таблиці</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+  </head>
+  <body class="palette-1">
+    <header class="header">
+      <div class="container">
+        <div class="btn_wrapper">
+          <button id="themeToggle" class="theme-toggle">
+            <span class="material-icons" id="themeIcon">dark_mode</span>
+          </button>
+
+          <div class="palette-container">
+            <button id="palette-btn" class="palette-btn">
+              <span class="material-icons">palette</span>
+            </button>
+
+            <ul id="palette-dropdown" class="dropdown hidden">
+              <li data-palette="1" class="dropdown-item palette-1 active"></li>
+              <li data-palette="2" class="dropdown-item palette-2"></li>
+              <li data-palette="3" class="dropdown-item palette-3"></li>
+              <li data-palette="4" class="dropdown-item palette-4"></li>
+              <li data-palette="5" class="dropdown-item palette-5"></li>
+            </ul>
+          </div>
+        </div>
+        <div class="logo_wrapper">
+          <a href="/"><img src="/GraphItUp/logo.svg" alt="логотип" class="logo" width="50" height="50" /></a>
+          <h2 class="header-title">Graph It Up</h2>
+        </div>
+      </div>
+    </header>
+    <main>
+      <section class="section">
+        <div class="container">
+          <div class="settings">
+            <h2 class="settings-title">Налаштування</h2>
+            <div class="type-wrapper">
+              <p class="type-title">Тип діаграми:</p>
+
+              <label for="chartTypeBar">
+                <input type="radio" id="chartTypeBar" name="chartType" value="bar" />
+                <span>Стовпчикова</span>
+              </label>
+
+              <label for="chartTypePie">
+                <input type="radio" id="chartTypePie" name="chartType" value="pie" />
+                <span>Кругова</span>
+              </label>
+
+              <label for="chartTypeLine">
+                <input type="radio" id="chartTypeLine" name="chartType" value="line" />
+                <span> Лінійна </span>
+              </label>
+            </div>
+            <div id="scale-wrapper" class="scale-wrapper">
+              <p class="scale-title">Масштаб осі Y:</p>
+
+              <input id="scale-toggle" class="scale-toggle" type="text" placeholder="Выберите число" />
+              <ul id="scale-menu" class="scale-menu hidden scrollable-container"></ul>
+            </div>
+          </div>
+          <div class="chartSVG-wrapper">
+            <div>
+              <div class="chart-thumb"></div>
+              <div id="chartLoader" class="loader" style="display: none"></div>
+              <svg id="chartSVG" width="400" height="300"></svg>
+              <div id="pagination" class="pagination-wrapper">
+                <button id="prevBtn" aria-label="Previous">
+                  <span class="material-icons">arrow_back</span>
+                </button>
+                <span id="pageInfo"></span>
+                <button id="nextBtn" aria-label="Next">
+                  <span class="material-icons">arrow_forward</span>
+                </button>
+              </div>
+            </div>
+
+            <div id="legend" class="legend"></div>
+          </div>
+        </div>
+      </section>
+      <section class="preview-section">
+        <div class="container scrollable-container">
+          <table id="dataTable"></table>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <div class="footer"><p>@ GraphItUp</p></div>
+    </footer>
+
+  </body>
+</html>

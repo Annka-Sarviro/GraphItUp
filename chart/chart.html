@@ -4,23 +4,26 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Діаграми і Таблиці</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+    />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
-    <script type="module" crossorigin src="/GraphItUp/assets/chart-DpvLES8g.js"></script>
-    <link rel="modulepreload" crossorigin href="/GraphItUp/assets/themeToggle-xU4vWfZ9.js">
-    <link rel="stylesheet" crossorigin href="/GraphItUp/assets/themeToggle-leaMpwd6.css">
+    <script type="module" crossorigin src="/GraphItUp/assets/chart-Wp_DHP1R.js"></script>
+    <link rel="modulepreload" crossorigin href="/GraphItUp/assets/themeToggle-CdFjJuAK.js">
+    <link rel="stylesheet" crossorigin href="/GraphItUp/assets/themeToggle-XCfrRPyV.css">
   </head>
   <body class="palette-1">
     <header class="header">
       <div class="container">
         <div class="btn_wrapper">
           <button id="themeToggle" class="theme-toggle">
-            <span class="material-icons" id="themeIcon">dark_mode</span>
+            <span class="material-symbols-outlined" id="themeIcon">dark_mode</span>
           </button>
 
           <div class="palette-container">
             <button id="palette-btn" class="palette-btn">
-              <span class="material-icons">palette</span>
+              <span class="material-symbols-outlined">palette</span>
             </button>
 
             <ul id="palette-dropdown" class="dropdown hidden">
@@ -42,44 +45,72 @@
       <section class="section">
         <div class="container">
           <div class="settings">
-            <h2 class="settings-title">Налаштування</h2>
-            <div class="type-wrapper">
-              <p class="type-title">Тип діаграми:</p>
+            <a href="/GraphItUp/" id="openChartWindow" class="back-icon">
+              <span class="material-symbols-outlined">arrow_back</span> Назад
+            </a>
+            <div class="settings-thumb">
+              <div>
+                <h2 class="settings-title">Налаштування</h2>
 
-              <label for="chartTypeBar">
-                <input type="radio" id="chartTypeBar" name="chartType" value="bar" />
-                <span>Стовпчикова</span>
-              </label>
+                <div class="type-wrapper">
+                  <p class="type-title">Тип діаграми:</p>
 
-              <label for="chartTypePie">
-                <input type="radio" id="chartTypePie" name="chartType" value="pie" />
-                <span>Кругова</span>
-              </label>
+                  <label for="chartTypeBar">
+                    <input type="radio" id="chartTypeBar" name="chartType" value="bar" />
+                    <span>Стовпчикова</span>
+                  </label>
 
-              <label for="chartTypeLine">
-                <input type="radio" id="chartTypeLine" name="chartType" value="line" />
-                <span> Лінійна </span>
-              </label>
-            </div>
-            <div id="scale-wrapper" class="scale-wrapper">
-              <p class="scale-title">Масштаб осі Y:</p>
+                  <label for="chartTypePie">
+                    <input type="radio" id="chartTypePie" name="chartType" value="pie" />
+                    <span>Кругова</span>
+                  </label>
 
-              <input id="scale-toggle" class="scale-toggle" type="text" placeholder="Выберите число" />
-              <ul id="scale-menu" class="scale-menu hidden scrollable-container"></ul>
+                  <label for="chartTypeLine">
+                    <input type="radio" id="chartTypeLine" name="chartType" value="line" />
+                    <span> Лінійна </span>
+                  </label>
+                </div>
+                <div id="scale-wrapper" class="scale-wrapper">
+                  <p class="scale-title">Масштаб осі Y:</p>
+
+                  <input id="scale-toggle" class="scale-toggle" type="text" placeholder="Выберите число" />
+                  <ul id="scale-menu" class="scale-menu hidden scrollable-container"></ul>
+                </div>
+              </div>
+              <div class="export-wrapper">
+                <div class="export-type">
+                  <p>Експортувати як</p>
+                  <div id="customLabel" class="custom-label">
+                    <span id="selectedFormat">PDF</span>
+                    <span class="material-symbols-outlined arrow"> keyboard_arrow_down </span>
+
+                    <div id="selectOptions" class="select-options">
+                      <div data-value="PDF">PDF</div>
+                      <div data-value="PNG">PNG</div>
+                      <div data-value="SVG">SVG</div>
+                    </div>
+                  </div>
+
+                  <button id="exportButton" class="export-button">
+                    <span class="material-symbols-outlined"> save </span>
+                  </button>
+                </div>
+                <button id="printChart" class="button-primary print-btn">Друк</button>
+              </div>
             </div>
           </div>
-          <div class="chartSVG-wrapper">
+          <div class="chartSVG-wrapper" id="chartSVG-wrapper">
             <div>
               <div class="chart-thumb"></div>
               <div id="chartLoader" class="loader" style="display: none"></div>
               <svg id="chartSVG" width="400" height="300"></svg>
               <div id="pagination" class="pagination-wrapper">
                 <button id="prevBtn" aria-label="Previous">
-                  <span class="material-icons">arrow_back</span>
+                  <span class="material-symbols-outlined">arrow_back</span>
                 </button>
                 <span id="pageInfo"></span>
                 <button id="nextBtn" aria-label="Next">
-                  <span class="material-icons">arrow_forward</span>
+                  <span class="material-symbols-outlined">arrow_forward</span>
                 </button>
               </div>
             </div>
@@ -96,7 +127,6 @@
     </main>
     <footer>
       <div class="footer"><p>@ GraphItUp</p></div>
-    </footer>
-
+    </footer>
   </body>
 </html>

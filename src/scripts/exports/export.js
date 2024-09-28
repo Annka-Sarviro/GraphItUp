@@ -13,7 +13,7 @@ document.getElementById("exportButton").addEventListener("click", () => {
   } else if (format === "SVG") {
     exportSVG(chartSVGContents, "chart.svg");
   } else if (format === "PDF") {
-    exportPDF(chartSVGContents, tableElement, "chart_table.pdf");
+    exportPDF(chartSVGContents, "chart_table.pdf");
   } else {
     console.error("Непідтримуваний формат: " + format);
   }

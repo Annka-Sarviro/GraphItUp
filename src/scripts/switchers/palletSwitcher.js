@@ -1,11 +1,8 @@
-import { drawChart, renderTable } from "../../chart/chart";
+import { drawChart } from "../../chart/chart";
+import { renderTable } from "../table/renderTable";
 
-const parsedata = JSON.parse(localStorage.getItem("chartData")) || [];
-const data = parsedata.map(row =>
-  row.filter((_, colIndex) => {
-    return parsedata.some(row => !isNaN(row[colIndex]) && row[colIndex] !== "");
-  })
-);
+const data = JSON.parse(localStorage.getItem("chartData")) || [];
+
 const paletteBtn = document.getElementById("palette-btn");
 const paletteDropdown = document.getElementById("palette-dropdown");
 

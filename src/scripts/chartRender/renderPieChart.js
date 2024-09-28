@@ -1,3 +1,5 @@
+import { highlightCategory } from "../helpers/highlightCategory";
+
 export function renderPieChart(values, labels, categories, chartSVG, axisX, axisY, radius = 300) {
   const rawValues = values[0].map(value => parseInt(value)).filter(value => !isNaN(value) && value !== "");
 
@@ -62,43 +64,4 @@ export function renderPieChart(values, labels, categories, chartSVG, axisX, axis
     axisXText.textContent = `${labels[0]}  ${axisX}`;
     chartSVG.appendChild(axisXText);
   });
-}
-
-function highlightCategory(path, isHovering) {
-  const category = path.getAttribute("data-category");
-  const year = path.getAttribute("data-year");
-  const cells = document.querySelectorAll("#dataTable td");
-  const selectedCells = document.querySelectorAll("#dataTable  tr.highlight td");
-
-  if (isHovering) {
-    path.style.cursor = "pointer";
-    path.setAttribute("stroke", "var(--accent-color-hover)");
-    path.setAttribute("stroke-width", "3");
-    if (selectedCells.length > 0) {
-      selectedCells.forEach(cell => {
-        const cellCategory = cell.getAttribute("data-Y");
-        const cellYear = cell.getAttribute("data-X");
-
-        if (cellCategory === category && cellYear === year) {
-          cell.classList.add("highlight");
-        }
-      });
-    } else {
-      cells.forEach(cell => {
-        const cellCategory = cell.getAttribute("data-Y");
-        const cellYear = cell.getAttribute("data-X");
-
-        if (cellCategory === category && cellYear === year) {
-          cell.classList.add("highlight");
-        }
-      });
-    }
-  } else {
-    path.setAttribute("stroke", "none");
-    path.setAttribute("stroke-width", "initial");
-
-    cells.forEach(cell => {
-      cell.classList.remove("highlight");
-    });
-  }
 }

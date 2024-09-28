@@ -117,13 +117,13 @@
   --color-palette-5-red: #ff595e;
 }
 
-@media (min-width: 640px) {
+@media print, screen and (min-width: 640px) {
   :root {
     --font-size-heading: var(--font-lg);
   }
 }
 
-@media (min-width: 1024px) {
+@media print, screen and (min-width: 1024px) {
   :root {
     --font-size-heading: var(--font-xl);
     --line-height-heading: var(--font-2xl);
@@ -311,13 +311,13 @@ main {
   box-sizing: border-box;
 }
 
-@media (min-width: 640px) {
+@media print, screen and (min-width: 640px) {
   .container {
     padding: 0 var(--spacing-2xl);
   }
 }
 
-@media (min-width: 1024px) {
+@media print, screen and (min-width: 1024px) {
   .container {
     width: 1024px;
     padding: 0 var(--spacing-2xl);
@@ -377,7 +377,7 @@ main {
 .theme-toggle:hover {
   box-shadow: var(--box-shadow-white);
 }
-.theme-toggle .material-icons {
+.theme-toggle .material-symbols-outlined {
   font-size: 24px;
   color: var(--grey);
 }
@@ -516,6 +516,19 @@ main {
 }
 
 /* ---------- Chart page ------------- */
+.settings-thumb {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 10px;
+}
+
+@media print, screen and (min-width: 860px) {
+  .settings-thumb {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
 .settings {
   margin-bottom: 30px;
 }
@@ -526,7 +539,7 @@ main {
 .btn_wrapper {
   position: absolute;
   top: 10px;
-  right: 10px;
+  right: 32px;
   display: flex;
   column-gap: 10px;
 }
@@ -553,7 +566,7 @@ main {
   box-shadow: var(--box-shadow-white);
 }
 
-.palette-btn .material-icons {
+.palette-btn .material-symbols-outlined {
   font-size: 24px;
   color: var(--grey);
 }
@@ -700,14 +713,14 @@ main {
   height: 500px;
 }
 
-@media (min-width: 640px) {
+@media print, screen and (min-width: 640px) {
   #chartSVG {
     width: 600px;
     height: 600px;
   }
 }
 
-@media (min-width: 1024px) {
+@media print, screen and (min-width: 1024px) {
   #chartSVG {
     width: 800px;
     height: 800px;
@@ -767,6 +780,7 @@ main {
 .scale-menu li {
   padding: 8px;
   cursor: pointer;
+  transition: var(--background-transition);
 }
 
 .scale-menu li:hover {
@@ -809,9 +823,10 @@ main {
   z-index: 10;
 }
 
-@media (min-width: 1024px) {
+@media print, screen and (min-width: 860px) {
   .chartSVG-wrapper {
     flex-direction: row;
+    justify-content: space-between;
   }
 }
 .legend {
@@ -861,12 +876,112 @@ main {
   padding: 0 10px;
 }
 
-.pagination-wrapper .material-icons {
+.pagination-wrapper .material-symbols-outlined {
   font-size: 24px;
   color: var(--button-accent-background);
   transition: var(--all-transition);
 }
 
-.pagination-wrapper .material-icons:hover {
+.pagination-wrapper .material-symbols-outlined:hover {
   color: var(--button-accent-background-hover);
+}
+
+.export-wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+@media print, screen and (min-width: 860px) {
+  .export-wrapper {
+    flex-direction: column;
+    justify-content: flex-start;
+    width: fit-content;
+    height: fit-content;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid var(--grey);
+    box-shadow: var(--box-shadow-dark);
+    width: 280px;
+  }
+
+  .legend {
+    width: 280px;
+  }
+}
+.export-type {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.export-button {
+  border: none;
+  cursor: pointer;
+
+  background: transparent;
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.export-button :hover {
+  box-shadow: var(--box-shadow-white);
+}
+.export-button .material-symbols-outlined {
+  font-size: 32px;
+  color: var(--button-background);
+}
+.print-btn {
+  width: fit-content;
+}
+.custom-label {
+  padding: 8px;
+  width: 62px;
+  background-color: var(--background-box-color);
+  border: 1px solid var(--grey);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+/* Стиль для стрілки вниз */
+.arrow {
+  transition: transform 0.3s ease;
+}
+
+/* Обертання стрілки на 180 градусів */
+.rotate {
+  transform: rotate(180deg);
+}
+
+/* Контейнер для вибору опцій */
+.select-options {
+  background-color: var(--background-box-color);
+  border: 1px solid var(--grey);
+  position: absolute;
+  color: var(--text-color);
+  width: 80px;
+  display: none;
+  z-index: 1;
+  top: 52px;
+  left: 0;
+}
+
+/* Стиль для кожної опції */
+.select-options div {
+  padding: 10px;
+  cursor: pointer;
+  transition: var(--all-transition);
+}
+
+/* Стиль для ховера */
+.select-options div:hover {
+  background-color: var(--disabled);
+  color: var(--background-box-color);
+}
+
+/* Відкрите меню */
+.show {
+  display: block;
 }

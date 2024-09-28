@@ -1,3 +1,5 @@
+import { highlightCategory } from "../helpers/highlightCategory";
+
 export function renderBarChart(dataset, labels, categories, chartSVG, axisX, axisY) {
   const padding = 40;
   const chartWidth = chartSVG.clientWidth - 2 * padding;
@@ -101,43 +103,4 @@ export function renderBarChart(dataset, labels, categories, chartSVG, axisX, axi
   xLabel.textContent = axisX;
   xLabel.setAttribute("text-anchor", "middle");
   chartSVG.appendChild(xLabel);
-}
-
-function highlightCategory(rect, isHovering) {
-  const category = rect.getAttribute("data-category");
-  const year = rect.getAttribute("data-year");
-  const cells = document.querySelectorAll("#dataTable td");
-  const selectedCells = document.querySelectorAll("#dataTable  tr.highlight td");
-
-  if (isHovering) {
-    rect.style.cursor = "pointer";
-    rect.setAttribute("stroke", "var(--accent-color-hover)");
-    rect.setAttribute("stroke-width", "3");
-    if (selectedCells.length > 0) {
-      selectedCells.forEach(cell => {
-        const cellCategory = cell.getAttribute("data-Y");
-        const cellYear = cell.getAttribute("data-X");
-
-        if (cellCategory === category && cellYear === year) {
-          cell.classList.add("highlight");
-        }
-      });
-    } else {
-      cells.forEach(cell => {
-        const cellCategory = cell.getAttribute("data-Y");
-        const cellYear = cell.getAttribute("data-X");
-
-        if (cellCategory === category && cellYear === year) {
-          cell.classList.add("highlight");
-        }
-      });
-    }
-  } else {
-    rect.setAttribute("stroke", "none");
-    rect.setAttribute("stroke-width", "initial");
-
-    cells.forEach(cell => {
-      cell.classList.remove("highlight");
-    });
-  }
 }

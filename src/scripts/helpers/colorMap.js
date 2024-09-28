@@ -10,20 +10,23 @@ export function generateColorsForHeaderRow(headerRow) {
   const baseColors = [oneColor, twoColor, threeColor, fourColor, fiveColor];
   const colorMap = {};
 
-  headerRow.forEach((item, index) => {
-    let color;
+  headerRow
+    .filter(el => el !== "error-undefined")
+    .forEach((item, index) => {
+      let color;
+      if (item === "error-undefined") {
+        return;
+      }
 
-    if (index < 5) {
-      color = baseColors[index];
-    } else {
-      const baseColor = baseColors[index % 5];
-      color = darkenColor(baseColor, -20 * Math.floor(index / 5));
-    }
+      if (index < 5) {
+        color = baseColors[index];
+      } else {
+        const baseColor = baseColors[index % 5];
+        color = darkenColor(baseColor, -20 * Math.floor(index / 5));
+      }
 
-    colorMap[item] = color;
-  });
+      colorMap[item] = color;
+    });
 
   localStorage.setItem("headerColors", JSON.stringify(colorMap));
-
-  console.log("Generated Color Map:", colorMap);
 }

@@ -50,16 +50,16 @@ function highlightCategory(category, isHovering, type = "bar") {
     if (categoryValue === category) {
       if (isHovering) {
         if (type === "line") {
-          bar.style.strokeWidth = "4px";
+          bar.setAttribute("stroke-width", "4");
         } else {
+          bar.setAttribute("stroke-width", "3");
           bar.style.stroke = "var(--accent-color-hover)";
-          bar.style.strokeWidth = "3px";
         }
       } else {
         if (type === "line") {
-          bar.style.strokeWidth = "initial";
+          bar.setAttribute("stroke-width", "2");
         } else {
-          bar.style.stroke = "none";
+          bar.setAttribute("stroke-width", "0");
         }
       }
     }

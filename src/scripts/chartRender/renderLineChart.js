@@ -57,7 +57,6 @@ export function renderLineChart(values, labels, categories, chartSVG, axisX, axi
     let started = false;
 
     series.forEach((value, index) => {
-      console.log(value);
       if (value === undefined || value === null || isNaN(value) || !value) {
         started = false;
         return;

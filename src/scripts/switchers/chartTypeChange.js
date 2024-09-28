@@ -1,5 +1,5 @@
 import { drawChart } from "../../chart/chart";
-import { renderTable } from "../../chart/chart";
+import { renderTable } from "../table/renderTable";
 
 const data = JSON.parse(localStorage.getItem("chartData")) || [];
 let chartType = localStorage.getItem("chartType");

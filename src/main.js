@@ -12,7 +12,7 @@ const supportedExtensions = ["csv", "xls", "xlsx", "json"];
 function setupFileInputHandler() {
   fileInput.addEventListener("change", e => {
     const file = e.target.files[0];
-
+    localStorage.setItem("currentPage", 1);
     handleFile(file);
   });
 }
@@ -49,7 +49,7 @@ function handleFile(file) {
   let iconName = getIconName(extension);
 
   fileWrap.innerHTML = `
-    <span class="material-icons file-icons">${iconName}</span>
+    <span class="material-symbols-outlined file-icons">${iconName}</span>
     <p>Вибрано файл: ${file.name}</p>
   `;
 
@@ -92,6 +92,7 @@ dropbox.addEventListener("drop", e => {
   const file = e.dataTransfer.files[0];
   if (file) {
     fileInput.files = e.dataTransfer.files;
+    localStorage.setItem("currentPage", 1);
     handleFile(file);
   } else {
     handleFile(null);

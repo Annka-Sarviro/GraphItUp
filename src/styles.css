@@ -944,17 +944,14 @@ thead {
   position: relative;
 }
 
-/* Стиль для стрілки вниз */
 .arrow {
   transition: transform 0.3s ease;
 }
 
-/* Обертання стрілки на 180 градусів */
 .rotate {
   transform: rotate(180deg);
 }
 
-/* Контейнер для вибору опцій */
 .select-options {
   background-color: var(--background-box-color);
   border: 1px solid var(--grey);
@@ -967,20 +964,17 @@ thead {
   left: 0;
 }
 
-/* Стиль для кожної опції */
-.select-options div {
+.select-options li {
   padding: 10px;
   cursor: pointer;
   transition: var(--all-transition);
 }
 
-/* Стиль для ховера */
-.select-options div:hover {
+.select-options li:hover {
   background-color: var(--disabled);
   color: var(--background-box-color);
 }
 
-/* Відкрите меню */
 .show {
   display: block;
 }

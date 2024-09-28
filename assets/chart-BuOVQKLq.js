@@ -12,7 +12,7 @@ import"./themeToggle-CdFjJuAK.js";function at(){const t=document.getElementById(
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
     />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
-        <link rel="stylesheet" type="text/css" href="../styles.css">
+        <link rel="stylesheet" type="text/css" href="../../styles.css">
       </head>
       <body>
         <div id="print-content">

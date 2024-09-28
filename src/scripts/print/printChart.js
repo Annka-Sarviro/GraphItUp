@@ -1,16 +1,13 @@
 function printChart() {
   const chartSVGContents = document.getElementById("chartSVG-wrapper").outerHTML;
 
-  const pagination = document.getElementById("pagination");
-  const isPaginationVisible = pagination && getComputedStyle(pagination).display !== "none";
-
   const dataTable = document.getElementById("dataTable");
   const rowTable = dataTable.querySelectorAll("tr");
 
   let dataTableContents;
   const headContent = rowTable.length > 0 ? rowTable[0].outerHTML : "";
 
-  if (isPaginationVisible && rowTable.length > 7) {
+  if (rowTable.length > 7) {
     const highlightRows = Array.from(dataTable.querySelectorAll("tr.highlight"));
     dataTableContents = `
       <table>
@@ -32,13 +29,13 @@ function printChart() {
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
     />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
-        <link rel="stylesheet" type="text/css" href="../styles.css">
+        <link rel="stylesheet" type="text/css" href="/GraphItUp/assets/themeToggle-XCfrRPyV.css">
       </head>
       <body>
         <div id="print-content">
 
           ${chartSVGContents}
-          ${isPaginationVisible ? pagination.outerHTML : ""} <!-- Додаємо вміст pagination, якщо він не має display: none -->
+
           ${dataTableContents}
         </div>
       </body>

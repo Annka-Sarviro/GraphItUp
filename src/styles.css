@@ -451,31 +451,30 @@ main {
   background-color: var(--disabled);
 }
 /* --------- Preview section --------- */
-.preview-section {
-  table {
-    border-collapse: collapse;
-    width: 100%;
-    margin-top: 20px;
-  }
-  th,
-  td {
-    border: 1px solid var(--disabled);
-    padding: 8px;
-    text-align: left;
-  }
-  th {
-    background-color: var(--background-box-color);
-  }
-  thead {
-    position: sticky;
-    top: 0;
-    z-index: 3;
-  }
 
-  .highlight {
-    background-color: var(--background-accent-color);
-    transition: var(--background-transition);
-  }
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 20px;
+}
+th,
+td {
+  border: 1px solid var(--disabled);
+  padding: 8px;
+  text-align: left;
+}
+th {
+  background-color: var(--background-box-color);
+}
+thead {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+}
+
+.highlight {
+  background-color: var(--background-accent-color);
+  transition: var(--background-transition);
 }
 
 #dataTable .extra {

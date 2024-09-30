@@ -1,5 +1,7 @@
-.button-primary {
-  background-color: var(--button-background);
+.button-primary,
+.button-secondary,
+.button-error,
+.button-tab {
   color: var(--button-text-color);
   border-radius: var(--button-border-radius);
   padding: var(--button-padding);
@@ -7,6 +9,10 @@
   cursor: pointer;
   transition: var(--background-transition);
   display: inline-block;
+}
+
+.button-primary {
+  background-color: var(--button-background);
 }
 
 .button-primary:hover {
@@ -15,13 +21,6 @@
 
 .button-secondary {
   background-color: var(--button-accent-background);
-  color: var(--text-color);
-  border-radius: var(--button-border-radius);
-  padding: var(--button-padding);
-  border: none;
-  cursor: pointer;
-  transition: var(--background-transition);
-  display: inline-block;
 }
 
 .button-secondary:hover {
@@ -30,15 +29,16 @@
 
 .button-error {
   background-color: var(--button-error-background);
-  color: var(--button-text-color);
-  border-radius: var(--button-border-radius);
-  padding: var(--button-padding);
-  border: none;
-  cursor: pointer;
-  transition: var(--background-transition);
-  display: inline-block;
 }
 
 .button-error:hover {
   background-color: var(--button-error-background-hover);
+}
+
+.button-tab {
+  background-color: var(--button-tab-background);
+}
+
+.button-tab:hover {
+  background-color: var(--button-tab-background-hover);
 }

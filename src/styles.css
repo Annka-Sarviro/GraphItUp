@@ -162,7 +162,6 @@ main {
 table {
   border-collapse: collapse;
   width: 100%;
-  margin-top: var(--spacing-lg);
 }
 th,
 td {

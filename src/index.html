@@ -53,16 +53,19 @@
             href="./chart/chart.html"
             id="openChartWindow"
             class="button-secondary open-chart-page-btn open-chart-page-btn-disabled"
-            >Відкрити діаграми</a
+            >Створити діаграму</a
           >
         </div>
       </section>
       <section class="preview-section">
-        <div class="container"><div id="mainPreview"></div></div>
-
-        <div class="container scrollable-container">
+        <div class="container tabs-container">
+          <h3 id="tabs-title" class="title">Оберіть сторінку документа</h3>
           <div class="tabs" id="tabs"></div>
-          <div class="preview" id="preview"></div>
+        </div>
+
+        <div class="container">
+          <h2 id="preview-title"></h2>
+          <div class="preview scrollable-container" id="preview"></div>
         </div>
       </section>
     </main>

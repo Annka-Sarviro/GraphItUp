@@ -1,5 +1,8 @@
 import * as XLSX from "xlsx";
 const openChartPageBtn = document.querySelector(".open-chart-page-btn");
+const tabsContainer = document.getElementById("tabs");
+const previewTitle = document.getElementById("preview-title");
+const tabsTitle = document.getElementById("tabs-title");
 
 export function displayPreview(file, preview) {
   const fileType = file.type;
@@ -57,13 +60,13 @@ function handleXLSFile(file, preview) {
     const data = new Uint8Array(e.target.result);
     const workbook = XLSX.read(data, { type: "array" });
 
-    const tabsContainer = document.getElementById("tabs");
     tabsContainer.innerHTML = "";
     preview.innerHTML = "";
 
     const sheets = workbook.SheetNames;
     const sheetData = {};
     let selectedSheet = sheets[0];
+
     sheets.forEach(sheetName => {
       const worksheet = workbook.Sheets[sheetName];
       const json = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: "" });
@@ -72,37 +75,42 @@ function handleXLSFile(file, preview) {
       const nonEmptyRows = filledJson.filter(row => row.some(cell => cell !== ""));
       const filteredData = removeEmptyColumns(nonEmptyRows);
       sheetData[sheetName] = filteredData;
+    });
 
-      if (sheets.length > 1) {
+    displayTable(sheetData[selectedSheet], preview);
+
+    if (sheets.length > 1) {
+      sheets.forEach(sheetName => {
         const tab = document.createElement("button");
         tab.innerText = sheetName;
         tab.classList.add("tab-button");
-        displayTable(sheetData[selectedSheet], preview);
+        tab.classList.add("button-tab");
+        if (sheetName === selectedSheet) {
+          tab.classList.add("active");
+        }
         tab.addEventListener("click", () => {
           preview.innerHTML = "";
           selectedSheet = sheetName;
           displayTable(sheetData[selectedSheet], preview);
-          console.log("sheetData", sheetData[selectedSheet]);
+          setActiveTab(tab);
           document.getElementById("openChartWindow").addEventListener("click", () => {
             localStorage.setItem("chartData", JSON.stringify(sheetData[selectedSheet]));
           });
         });
 
         tabsContainer.appendChild(tab);
-      } else if (sheets.length === 1) {
-        preview.innerHTML = "";
-        document.getElementById("openChartWindow").addEventListener("click", () => {
-          localStorage.setItem("chartData", JSON.stringify(sheetData[sheets[0]]));
-        });
-        displayTable(sheetData[sheets[0]], preview);
-      }
-    });
+      });
 
-    if (sheets.length <= 1) {
-      tabsContainer.style.display = "none";
+      tabsContainer.style.display = "flex";
+      tabsTitle.style.display = "block";
     } else {
-      tabsContainer.style.display = "block";
+      tabsContainer.style.display = "none";
+      tabsTitle.style.display = "none";
     }
+
+    document.getElementById("openChartWindow").addEventListener("click", () => {
+      localStorage.setItem("chartData", JSON.stringify(sheetData[selectedSheet]));
+    });
   };
 
   reader.readAsArrayBuffer(file);
@@ -181,9 +189,8 @@ function displayTable(data, preview) {
     return;
   }
 
-  const titleElement = document.createElement("h2");
-  titleElement.textContent = "Попередній перегляд";
-  preview.appendChild(titleElement);
+  previewTitle.textContent = "Попередній перегляд";
+  previewTitle.style.display = "block";
 
   const table = document.createElement("table");
   const thead = document.createElement("thead");
@@ -226,4 +233,10 @@ function removeEmptyColumns(data) {
   return data.map(row => {
     return Array.from(columnsToKeep).map(colIndex => row[colIndex]);
   });
+}
+
+function setActiveTab(tabElement) {
+  const tabs = tabsContainer.querySelectorAll(".tab-button");
+  tabs.forEach(tab => tab.classList.remove("active"));
+  tabElement.classList.add("active");
 }

@@ -53,3 +53,29 @@
   pointer-events: none;
   background-color: var(--disabled);
 }
+
+/* ---------- Tabs --------------- */
+.tabs-container {
+  margin-bottom: var(--spacing-xl) !important;
+}
+.tabs-container .title {
+  display: none;
+}
+
+.tabs {
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: var(--spacing-2xs);
+}
+
+.tab-button.active {
+  background-color: var(--secondary-blue);
+}
+
+.tab-button.active:hover {
+  background-color: var(--primary-blue);
+}
+
+#preview-title {
+  margin-bottom: var(--spacing-lg);
+}

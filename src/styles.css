@@ -151,6 +151,9 @@ main {
   height: var(--spacing-5xl);
   animation: spin 1s linear infinite;
   position: absolute;
+  top: 50%;
+  right: 50%;
+  transform: translate(-50%, -50%);
   z-index: 2;
 }
 

@@ -56,19 +56,53 @@ function handleXLSFile(file, preview) {
   reader.onload = function (e) {
     const data = new Uint8Array(e.target.result);
     const workbook = XLSX.read(data, { type: "array" });
-    console.log("workbook", workbook);
-    const sheetName = workbook.SheetNames[0];
-    const worksheet = workbook.Sheets[sheetName];
 
-    const json = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: "" });
+    const tabsContainer = document.getElementById("tabs");
+    tabsContainer.innerHTML = "";
+    preview.innerHTML = "";
 
-    const filledJson = json.map(row => row.map(cell => (cell === null || cell === undefined ? "" : cell)));
+    const sheets = workbook.SheetNames;
+    const sheetData = {};
+    let selectedSheet = sheets[0];
+    sheets.forEach(sheetName => {
+      const worksheet = workbook.Sheets[sheetName];
+      const json = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: "" });
 
-    const nonEmptyRows = filledJson.filter(row => row.some(cell => cell !== ""));
+      const filledJson = json.map(row => row.map(cell => (cell === null || cell === undefined ? "" : cell)));
+      const nonEmptyRows = filledJson.filter(row => row.some(cell => cell !== ""));
+      const filteredData = removeEmptyColumns(nonEmptyRows);
+      sheetData[sheetName] = filteredData;
 
-    displayTable(nonEmptyRows, preview);
+      if (sheets.length > 1) {
+        const tab = document.createElement("button");
+        tab.innerText = sheetName;
+        tab.classList.add("tab-button");
+        displayTable(sheetData[selectedSheet], preview);
+        tab.addEventListener("click", () => {
+          preview.innerHTML = "";
+          selectedSheet = sheetName;
+          displayTable(sheetData[selectedSheet], preview);
+          console.log("sheetData", sheetData[selectedSheet]);
+          document.getElementById("openChartWindow").addEventListener("click", () => {
+            localStorage.setItem("chartData", JSON.stringify(sheetData[selectedSheet]));
+          });
+        });
 
-    localStorage.setItem("chartData", JSON.stringify(nonEmptyRows));
+        tabsContainer.appendChild(tab);
+      } else if (sheets.length === 1) {
+        preview.innerHTML = "";
+        document.getElementById("openChartWindow").addEventListener("click", () => {
+          localStorage.setItem("chartData", JSON.stringify(sheetData[sheets[0]]));
+        });
+        displayTable(sheetData[sheets[0]], preview);
+      }
+    });
+
+    if (sheets.length <= 1) {
+      tabsContainer.style.display = "none";
+    } else {
+      tabsContainer.style.display = "block";
+    }
   };
 
   reader.readAsArrayBuffer(file);
@@ -177,4 +211,19 @@ function displayTable(data, preview) {
 
   table.appendChild(tbody);
   preview.appendChild(table);
+}
+
+function removeEmptyColumns(data) {
+  const columnCount = data[0].length;
+  const columnsToKeep = new Set();
+
+  for (let col = 0; col < columnCount; col++) {
+    if (data.some(row => row[col] !== "")) {
+      columnsToKeep.add(col);
+    }
+  }
+
+  return data.map(row => {
+    return Array.from(columnsToKeep).map(colIndex => row[colIndex]);
+  });
 }

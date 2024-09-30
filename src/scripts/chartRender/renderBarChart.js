@@ -72,7 +72,6 @@ export function renderBarChart(dataset, labels, categories, chartSVG, axisX, axi
 
     sortedData.forEach(({ value }, valueIndex) => {
       if (!isNaN(value) && value !== "") {
-        // Ensure the value is numeric and not an empty string
         const barHeight = (value / maxVal) * chartHeight;
         const valueText = document.createElementNS("http://www.w3.org/2000/svg", "text");
         valueText.setAttribute("x", xOffset + barWidth / 2);
@@ -85,7 +84,6 @@ export function renderBarChart(dataset, labels, categories, chartSVG, axisX, axi
     });
 
     if (labels[yearIndex] !== "") {
-      // Skip empty string labels
       const labelText = document.createElementNS("http://www.w3.org/2000/svg", "text");
       labelText.setAttribute("x", xOffset + barWidth / 2);
       labelText.setAttribute("y", chartSVG.clientHeight - padding + 15);

@@ -1,0 +1,161 @@
+:root {
+  --font-size: 14px;
+
+  /* -------------- Colors---------------- */
+  --primary-blue: #003366;
+  --primary-blue-hover: #00284d;
+  --secondary-blue: #0056a2;
+  --secondary-blue-hover: #01437e;
+  --accent-color-hover: #ffc300;
+  --accent-color: #ffd700;
+  --accent-color-dark: #e4b005;
+  --error-color: #d32f2f;
+  --error-color-hover: #b71c1c;
+  --white: #fff;
+  --grey: #f1f1f1;
+  --dark-grey: #121212;
+  --black: #000;
+  --disabled: #a2a0a0;
+  --background-color: var(--white);
+  --background-box-color: var(--grey);
+  --background-accent-color: #ffd8056b;
+  --background-dark-color: #23416163;
+  --text-color: var(--black);
+
+  /* ----------Dark scheme color ----------- */
+  .dark-theme {
+    --background-color: var(--dark-grey);
+    --text-color: var(--white);
+    --button-background: var(--secondary-blue);
+    --button-background-hover: var(--secondary-blue-hover);
+    --button-accent-background: var(--accent-color-hover);
+    --button-accent-background-hover: var(--accent-color-dark);
+    --background-box-color: var(--dark-grey);
+  }
+
+  /* ----------------- Font-sizing ------------- */
+  --font-3xs: 8px;
+  --font-2xs: 10px;
+  --font-xs: 12px;
+  --font-s: 14px;
+  --font-sm: 16px;
+  --font-md: 20px;
+  --font-lg: 22px;
+  --font-xl: 24px;
+  --font-2xl: 32px;
+
+  /* ------------ Font styles ------------ */
+
+  --font-size-heading: var(--font-md);
+  --line-height-heading: var(--font-xl);
+
+  --font-size-body: var(--font-s);
+  --line-height-body: var(--font-sm);
+
+  --font-size-label: var(--font-2xs);
+  --line-height-label: var(--font-s);
+
+  /* ------------- Spacing ------------- */
+  --spacing-3xs: 8px;
+  --spacing-2xs: 10px;
+  --spacing-xs: 12px;
+  --spacing-s: 14px;
+  --spacing-sm: 16px;
+  --spacing-md: 18px;
+  --spacing-lg: 20px;
+  --spacing-xl: 24px;
+  --spacing-2xl: 28px;
+  --spacing-3xl: 32px;
+  --spacing-4xl: 36px;
+  --spacing-5xl: 40px;
+  --spacing-6xl: 48px;
+  --spacing-7xl: 52px;
+  --spacing-8xl: 80px;
+
+  /* ----------- Radius---------- */
+  --box-radius: 6px;
+  --button-radius: 0;
+  --full-radius: 50%;
+
+  /* -----------------Border styles --------- */
+  --loader-border: 5px solid var(--grey);
+  --dached-border: 2px dashed var(--disabled);
+  --disabled-border: 1px solid var(--disabled);
+  --grey-border: 1px solid var(--grey);
+  --white-outline: 2px solid var(--white);
+
+  /* ------------- Button styling ----------- */
+  --button-padding: var(--spacing-2xs) var(--spacing-lg);
+  --button-border-radius: var(----button-radius);
+  --button-text-color: var(--white);
+  --button-background: var(--primary-blue);
+  --button-background-hover: var(--primary-blue-hover);
+  --button-accent-background: var(--accent-color);
+  --button-accent-background-hover: var(--accent-color-hover);
+  --button-error-background: var(--error-color);
+  --button-error-background-hover: var(--error-color-hover);
+
+  /* ----------------- Effects style --------------- */
+  --background-transition: background-color 0.3s ease;
+  --all-transition: all 0.3s ease;
+  --box-shadow-dark: 0 2px 10px rgba(0, 0, 0, 0.1);
+  --box-shadow-white: 0 0 34px rgba(255, 255, 255, 0.5);
+  --gradien-primary: radial-gradient(425.02px at 50% 50%, var(--secondary-blue) 0%, var(--primary-blue) 100%);
+
+  /* ---------------- Pallet colors ------------- */
+  /* Palette 1: MFA Color Scheme */
+  --color-palette-1-primary-blue: #003366;
+  --color-palette-1-secondary-blue: #0056a2;
+  --color-palette-1-golden-accent: #ffd700;
+  --color-palette-1-light-gray: #f1f1f1;
+  --color-palette-1-error-red: #d32f2f;
+
+  /* Palette 2: Classic Contrasting Colors */
+  --color-palette-2-blue: #1f77b4;
+  --color-palette-2-orange: #ff7f0e;
+  --color-palette-2-green: #2ca02c;
+  --color-palette-2-red: #d62728;
+  --color-palette-2-purple: #9467bd;
+
+  /* Palette 3: Balanced Cool and Warm Tones */
+  --color-palette-3-cool-blue: #4e79a7;
+  --color-palette-3-warm-orange: #f28e2b;
+  --color-palette-3-warm-red: #e15759;
+  --color-palette-3-teal: #76b7b2;
+  --color-palette-3-green: #59a14f;
+
+  /* Palette 4: Vibrant and Modern */
+  --color-palette-4-purple: #8e44ad;
+  --color-palette-4-blue: #3498db;
+  --color-palette-4-red: #e74c3c;
+  --color-palette-4-yellow: #f1c40f;
+  --color-palette-4-green: #2ecc71;
+
+  /* Palette 5: Bold and Dynamic Colors */
+  --color-palette-5-purple: #6a4c93;
+  --color-palette-5-blue: #1982c4;
+  --color-palette-5-green: #8ac926;
+  --color-palette-5-yellow: #ffca3a;
+  --color-palette-5-red: #ff595e;
+}
+
+@media print, screen and (min-width: 640px) {
+  :root {
+    --font-size-heading: var(--font-lg);
+  }
+}
+
+@media print, screen and (min-width: 1024px) {
+  :root {
+    --font-size-heading: var(--font-xl);
+    --line-height-heading: var(--font-2xl);
+
+    --font-size-body: var(--font-sm);
+    --line-height-body: var(--font-xl);
+
+    --font-size-label: var(--font-xs);
+    --line-height-label: var(--font-sm);
+
+    --button-padding: var(--spacing-xs) var(--spacing-xl);
+  }
+}

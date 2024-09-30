@@ -94,6 +94,8 @@
   --button-accent-background-hover: var(--accent-color-hover);
   --button-error-background: var(--error-color);
   --button-error-background-hover: var(--error-color-hover);
+  --button-tab-background: var(--disabled);
+  --button-tab-background-hover: var(--dark-grey);
 
   /* ----------------- Effects style --------------- */
   --background-transition: background-color 0.3s ease;

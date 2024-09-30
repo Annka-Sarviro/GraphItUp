@@ -1,0 +1,181 @@
+.header {
+  background: var(--gradien-primary);
+  display: flex;
+  flex-direction: column;
+  padding-top: var(--spacing-2xs);
+  padding-bottom: var(--spacing-2xs);
+}
+
+.header .container {
+  position: relative;
+}
+
+.dark-theme .header {
+  background: var(--background-dark-color);
+  border-bottom: (--grey-border);
+}
+
+.logo_wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo {
+  outline: var(--white-outline);
+  box-shadow: var(--box-shadow-white);
+}
+
+.header-title {
+  color: var(--white);
+}
+
+.theme-toggle,
+.palette-btn {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--spacing-2xl);
+  height: var(--spacing-2xl);
+  border-radius: var(--full-radius);
+  border: none;
+  cursor: pointer;
+  border: var(--grey-border);
+  background: transparent;
+  transition: var(--background-transition);
+}
+
+.theme-toggle:hover {
+  box-shadow: var(--box-shadow-white);
+}
+.theme-toggle .material-symbols-outlined,
+.palette-btn .material-symbols-outlined {
+  font-size: 23px;
+  color: var(--grey);
+}
+
+.footer {
+  text-align: center;
+  padding-top: var(--spacing-2xs);
+  padding-bottom: var(--spacing-2xs);
+}
+
+.palette-btn:hover {
+  box-shadow: var(--box-shadow-white);
+}
+
+.palette-container {
+  position: relative;
+}
+
+.dropdown {
+  position: absolute;
+  top: var(--spacing-5xl);
+  right: 0;
+  background: var(--background-color);
+  border: var(--grey-border);
+  border-radius: var(--box-radius);
+  width: 144px;
+  padding: 0;
+  box-shadow: var(--box-shadow-dark);
+  z-index: 10;
+  overflow: hidden;
+}
+
+.dropdown .dropdown-item {
+  height: var(--spacing-2xl);
+  cursor: pointer;
+  border: var(--grey-border);
+  border-width: 2px;
+  border-radius: var(--box-radius);
+  opacity: 0.5;
+  transition: var(--all-transition);
+}
+
+.dropdown-item:hover,
+.dropdown-item.active {
+  opacity: 1;
+}
+
+.dropdown-item.active {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-item:hover {
+  opacity: 1;
+}
+
+.dropdown .dropdown-item:hover {
+  background-color: var(--grey);
+}
+
+.dropdown-item.palette-1 {
+  background: linear-gradient(
+    to right,
+    var(--color-palette-1-primary-blue) 20%,
+    var(--color-palette-1-secondary-blue) 20%,
+    var(--color-palette-1-secondary-blue) 40%,
+    var(--color-palette-1-golden-accent) 40%,
+    var(--color-palette-1-golden-accent) 60%,
+    var(--color-palette-1-light-gray) 60%,
+    var(--color-palette-1-light-gray) 80%,
+    var(--color-palette-1-error-red) 80%
+  );
+}
+
+.dropdown-item.palette-2 {
+  background: linear-gradient(
+    to right,
+    var(--color-palette-2-blue) 20%,
+    var(--color-palette-2-orange) 20%,
+    var(--color-palette-2-orange) 40%,
+    var(--color-palette-2-green) 40%,
+    var(--color-palette-2-green) 60%,
+    var(--color-palette-2-red) 60%,
+    var(--color-palette-2-red) 80%,
+    var(--color-palette-2-purple) 80%
+  );
+}
+
+.dropdown-item.palette-3 {
+  background: linear-gradient(
+    to right,
+    var(--color-palette-3-cool-blue) 20%,
+    var(--color-palette-3-warm-orange) 20%,
+    var(--color-palette-3-warm-orange) 40%,
+    var(--color-palette-3-warm-red) 40%,
+    var(--color-palette-3-warm-red) 60%,
+    var(--color-palette-3-teal) 60%,
+    var(--color-palette-3-teal) 80%,
+    var(--color-palette-3-green) 80%
+  );
+}
+
+.dropdown-item.palette-4 {
+  background: linear-gradient(
+    to right,
+    var(--color-palette-4-blue) 20%,
+    var(--color-palette-4-yellow) 20%,
+    var(--color-palette-4-yellow) 40%,
+    var(--color-palette-4-green) 40%,
+    var(--color-palette-4-green) 60%,
+    var(--color-palette-4-red) 60%,
+    var(--color-palette-4-red) 80%,
+    var(--color-palette-4-purple) 80%
+  );
+}
+
+.dropdown-item.palette-5 {
+  background: linear-gradient(
+    to right,
+    var(--color-palette-5-blue) 20%,
+    var(--color-palette-5-yellow) 20%,
+    var(--color-palette-5-yellow) 40%,
+    var(--color-palette-5-green) 40%,
+    var(--color-palette-5-green) 60%,
+    var(--color-palette-5-red) 60%,
+    var(--color-palette-5-red) 80%,
+    var(--color-palette-5-purple) 80%
+  );
+}

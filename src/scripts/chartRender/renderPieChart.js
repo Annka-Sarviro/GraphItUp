@@ -1,4 +1,5 @@
 import { highlightCategory } from "../helpers/highlightCategory";
+import { highlightLegend } from "../helpers/highlightLegend";
 
 export function renderPieChart(values, labels, categories, chartSVG, axisX, axisY, radius = 300) {
   const rawValues = values[0].map(value => parseInt(value)).filter(value => !isNaN(value) && value !== "");
@@ -32,12 +33,17 @@ export function renderPieChart(values, labels, categories, chartSVG, axisX, axis
     path.setAttribute("fill", fillColor);
     path.setAttribute("data-category", categories[index]);
     path.setAttribute("data-year", labels[0]);
+
     path.addEventListener("mouseenter", () => {
       highlightCategory(path, true);
+      const category = path.getAttribute("data-category");
+      highlightLegend(category, true, "pie");
     });
 
     path.addEventListener("mouseleave", () => {
       highlightCategory(path, false);
+      const category = path.getAttribute("data-category");
+      highlightLegend(category, false, "pie");
     });
     chartSVG.appendChild(path);
 

@@ -1,4 +1,5 @@
 import { highlightCategory } from "../helpers/highlightCategory";
+import { highlightLegend } from "../helpers/highlightLegend";
 
 export function renderBarChart(dataset, labels, categories, chartSVG, axisX, axisY) {
   const padding = 40;
@@ -61,10 +62,14 @@ export function renderBarChart(dataset, labels, categories, chartSVG, axisX, axi
 
       rect.addEventListener("mouseenter", () => {
         highlightCategory(rect, true);
+        const category = rect.getAttribute("data-category");
+        highlightLegend(category, true, "bar");
       });
 
       rect.addEventListener("mouseleave", () => {
         highlightCategory(rect, false);
+        const category = rect.getAttribute("data-category");
+        highlightLegend(category, false, "bar");
       });
 
       cumulativeHeight += barHeight;

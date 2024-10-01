@@ -1,3 +1,5 @@
+import { highlightLegend } from "../helpers/highlightLegend";
+
 export function renderLineChart(values, labels, categories, chartSVG, axisX, axisY) {
   chartSVG.innerHTML = "";
   const data = JSON.parse(localStorage.getItem("chartData")) || [];
@@ -123,6 +125,8 @@ export function renderLineChart(values, labels, categories, chartSVG, axisX, axi
           }
         });
       }
+      const category = linePath.getAttribute("data-category");
+      highlightLegend(category, true, "line");
     });
 
     hoverPath.addEventListener("mouseout", function () {
@@ -144,6 +148,8 @@ export function renderLineChart(values, labels, categories, chartSVG, axisX, axi
           row.classList.remove("extra");
         }
       });
+      const category = linePath.getAttribute("data-category");
+      highlightLegend(category, false, "line");
     });
 
     series.forEach((value, index) => {

@@ -31,10 +31,12 @@ export function renderLegend(categories, axisY, type = "bar") {
 
     legendItem.addEventListener("mouseenter", () => {
       highlightCategory(category, true, type);
+      highlightColumn(category, true, type);
     });
 
     legendItem.addEventListener("mouseleave", () => {
       highlightCategory(category, false, type);
+      highlightColumn(category, false, type);
     });
 
     legendContainer.appendChild(legendItem);
@@ -63,5 +65,34 @@ function highlightCategory(category, isHovering, type = "bar") {
         }
       }
     }
+  });
+}
+
+function highlightColumn(category, isHovering, type = "bar") {
+  const table = document.getElementById("dataTable");
+  const rows = table.querySelectorAll("tr");
+  console.log(category, isHovering);
+  rows.forEach(row => {
+    const cells = row.querySelectorAll("td, th");
+
+    cells.forEach((cell, index) => {
+      const categoryValue = cell.getAttribute("data-y");
+
+      if (categoryValue === category) {
+        const columnIndex = index;
+
+        rows.forEach(r => {
+          const cellToHighlight = r.cells[columnIndex];
+
+          if (cellToHighlight) {
+            if (isHovering) {
+              cellToHighlight.style.backgroundColor = "var(--accent-color-hover)";
+            } else {
+              cellToHighlight.style.backgroundColor = "";
+            }
+          }
+        });
+      }
+    });
   });
 }

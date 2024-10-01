@@ -1,10 +1,17 @@
 import * as XLSX from "xlsx";
+import { hasMultipleTables } from "./helpers/hasMultipleTables";
+
 const openChartPageBtn = document.querySelector(".open-chart-page-btn");
 const tabsContainer = document.getElementById("tabs");
 const previewTitle = document.getElementById("preview-title");
 const tabsTitle = document.getElementById("tabs-title");
+const previewSelectCell = document.getElementById("preview-select-cell");
+
+let selectedCells = [];
 
 export function displayPreview(file, preview) {
+  localStorage.setItem("selectedCells", []);
+  localStorage.setItem("isMultipleTables", false);
   const fileType = file.type;
   preview.innerHTML = "";
   if (fileType === "text/csv") {
@@ -77,7 +84,14 @@ function handleXLSFile(file, preview) {
       sheetData[sheetName] = filteredData;
     });
 
+    localStorage.setItem("isMultipleTables", hasMultipleTables(sheetData[selectedSheet]));
     displayTable(sheetData[selectedSheet], preview);
+
+    if (localStorage.getItem("isMultipleTables") === "true") {
+      previewSelectCell.style.display = "block";
+    } else {
+      previewSelectCell.style.display = "none";
+    }
 
     if (sheets.length > 1) {
       sheets.forEach(sheetName => {
@@ -91,10 +105,23 @@ function handleXLSFile(file, preview) {
         tab.addEventListener("click", () => {
           preview.innerHTML = "";
           selectedSheet = sheetName;
+          localStorage.setItem("isMultipleTables", hasMultipleTables(sheetData[selectedSheet]));
           displayTable(sheetData[selectedSheet], preview);
           setActiveTab(tab);
+          if (localStorage.getItem("isMultipleTables") === "true") {
+            previewSelectCell.style.display = "block";
+          } else {
+            previewSelectCell.style.display = "none";
+          }
           document.getElementById("openChartWindow").addEventListener("click", () => {
-            localStorage.setItem("chartData", JSON.stringify(sheetData[selectedSheet]));
+            const isMultipleTables = localStorage.getItem("isMultipleTables");
+            const el = getSelectedData(sheetData[selectedSheet]);
+
+            if (isMultipleTables === "true") {
+              localStorage.setItem("chartData", JSON.stringify(el));
+            } else {
+              localStorage.setItem("chartData", JSON.stringify(sheetData[selectedSheet]));
+            }
           });
         });
 
@@ -109,7 +136,14 @@ function handleXLSFile(file, preview) {
     }
 
     document.getElementById("openChartWindow").addEventListener("click", () => {
-      localStorage.setItem("chartData", JSON.stringify(sheetData[selectedSheet]));
+      const el = getSelectedData(sheetData[selectedSheet]);
+
+      const isMultipleTables = localStorage.getItem("isMultipleTables");
+      if (isMultipleTables === "true") {
+        localStorage.setItem("chartData", JSON.stringify(el));
+      } else {
+        localStorage.setItem("chartData", JSON.stringify(sheetData[selectedSheet]));
+      }
     });
   };
 
@@ -206,11 +240,71 @@ function displayTable(data, preview) {
   thead.appendChild(trHead);
   table.appendChild(thead);
 
-  data.slice(1).forEach(row => {
+  let isSelecting = false;
+  let startCell = null;
+  let isMouseDown = false;
+  let startX = 0,
+    startY = 0;
+  const moveThreshold = 15;
+  data.slice(1).forEach((row, rowIndex) => {
     const tr = document.createElement("tr");
-    row.forEach(cell => {
+    row.forEach((cell, cellIndex) => {
       const td = document.createElement("td");
       td.textContent = cell || "";
+
+      td.addEventListener("mousedown", () => {
+        if (localStorage.getItem("isMultipleTables") === "false") {
+          return;
+        }
+
+        isMouseDown = true;
+        startX = event.clientX;
+        startY = event.clientY;
+        startCell = [rowIndex + 1, cellIndex + 1];
+        selectedCells.push(startCell);
+        table.classList.add("table-selecting");
+      });
+
+      td.addEventListener("mousemove", e => {
+        if (isMouseDown && localStorage.getItem("isMultipleTables") === "true") {
+          const currentX = event.clientX;
+          const currentY = event.clientY;
+
+          const deltaX = Math.abs(currentX - startX);
+          const deltaY = Math.abs(currentY - startY);
+
+          if (deltaX > moveThreshold || deltaY > moveThreshold) {
+            isSelecting = true;
+            const currentCell = [rowIndex + 1, cellIndex + 1];
+            table.querySelectorAll("td").forEach(td => td.classList.remove("highlight"));
+            selectedCells = [];
+            highlightCells(table, selectedCells, startCell, currentCell);
+          }
+        }
+      });
+
+      td.addEventListener("mouseup", () => {
+        if (isSelecting) {
+          const endCell = [rowIndex + 1, cellIndex + 1];
+
+          if (startCell[0] === endCell[0] && startCell[1] === endCell[1]) {
+            table.querySelectorAll("td").forEach(td => td.classList.remove("highlight"));
+            selectedCells = [];
+          } else {
+            localStorage.setItem("selectedCells", JSON.stringify(selectedCells));
+          }
+
+          isSelecting = false;
+        }
+        isMouseDown = false;
+        table.classList.remove("table-selecting");
+      });
+
+      document.addEventListener("mouseup", () => {
+        isMouseDown = false;
+
+        table.classList.remove("table-selecting");
+      });
       tr.appendChild(td);
     });
     tbody.appendChild(tr);
@@ -239,4 +333,43 @@ function setActiveTab(tabElement) {
   const tabs = tabsContainer.querySelectorAll(".tab-button");
   tabs.forEach(tab => tab.classList.remove("active"));
   tabElement.classList.add("active");
+}
+
+function highlightCells(table, selectedCells, start, end) {
+  const [startRow, startCol] = start;
+  const [endRow, endCol] = end;
+
+  const minRow = Math.min(startRow, endRow);
+  const maxRow = Math.max(startRow, endRow);
+  const minCol = Math.min(startCol, endCol);
+  const maxCol = Math.max(startCol, endCol);
+
+  table.querySelectorAll("td").forEach(td => td.classList.remove("highlight"));
+
+  for (let row = minRow; row <= maxRow; row++) {
+    for (let col = minCol; col <= maxCol; col++) {
+      const td = table.querySelector(`tr:nth-child(${row}) td:nth-child(${col})`);
+      if (td) {
+        td.classList.add("highlight");
+        selectedCells.push([row, col]);
+      }
+    }
+  }
+}
+
+function getSelectedData(sheet) {
+  const d = [];
+  const selectedCells = localStorage.getItem("selectedCells") || [];
+
+  if (selectedCells && selectedCells.length > 0) {
+    JSON.parse(selectedCells).forEach(([row, col]) => {
+      if (!d[row]) d[row] = [];
+      if (!d[row]) d[row] = [];
+
+      if (sheet[row] && sheet[row][col - 1] !== undefined) {
+        d[row].push(sheet[row][col - 1]);
+      }
+    });
+  }
+  return d.filter(row => Array.isArray(row) && row.length > 0);
 }

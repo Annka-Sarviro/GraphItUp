@@ -14,6 +14,9 @@ const parsedata = JSON.parse(localStorage.getItem("chartData")) || [];
 
 const data = parsedata.map(row =>
   row.filter((_, colIndex) => {
+    if (colIndex === 0) {
+      return true;
+    }
     return parsedata.some(row => !isNaN(row[colIndex]) && row[colIndex] !== "");
   })
 );
@@ -106,7 +109,6 @@ const nextButton = document.getElementById("nextBtn");
 
 if (!prevButton.dataset.eventAttached) {
   prevButton.addEventListener("click", event => {
-    console.log("Prev button clicked");
     event.preventDefault();
     changePage(-1);
   });
@@ -115,7 +117,6 @@ if (!prevButton.dataset.eventAttached) {
 
 if (!nextButton.dataset.eventAttached) {
   nextButton.addEventListener("click", event => {
-    console.log("Next button clicked");
     event.preventDefault();
     changePage(1);
   });

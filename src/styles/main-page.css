@@ -79,3 +79,8 @@
 #preview-title {
   margin-bottom: var(--spacing-lg);
 }
+
+#preview-select-cell {
+  display: none;
+  margin-bottom: var(--spacing-md);
+}

@@ -24,7 +24,6 @@ for (let i = 10; i <= 500; i += 10) {
     drawChart(chartType);
 
     dropdownMenu.classList.add("hidden");
-    console.log("Selected gridSize:", gridSize);
   });
 
   dropdownMenu.appendChild(menuItem);
@@ -32,7 +31,6 @@ for (let i = 10; i <= 500; i += 10) {
 
 dropdownToggle.addEventListener("input", event => {
   gridSize = event.target.value;
-  console.log("Entered gridSize:", gridSize);
 });
 
 dropdownToggle.addEventListener("keydown", event => {
@@ -42,7 +40,6 @@ dropdownToggle.addEventListener("keydown", event => {
     drawChart(chartType);
 
     dropdownMenu.classList.add("hidden");
-    console.log("GridSize saved and dropdown closed on Enter:", gridSize);
   }
 });
 

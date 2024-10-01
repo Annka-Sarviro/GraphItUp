@@ -191,7 +191,8 @@
   transform-origin: left;
 }
 
-.legend span:hover::after {
+.legend span:hover::after,
+.legend span.hover::after {
   transform: scaleX(1);
 }
 

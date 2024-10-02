@@ -2,7 +2,7 @@
 
 ## Сервіс для графічного відображення таблиць онлайн
 
-![Local Image](./src/assets/android-chrome-512x512.png)
+![Local Image](./src/assets/preview.jpg)
 
 ## Для локального запуску проєкту треба ввести команду
 

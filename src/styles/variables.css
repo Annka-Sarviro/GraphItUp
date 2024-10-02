@@ -22,17 +22,6 @@
   --background-dark-color: #23416163;
   --text-color: var(--black);
 
-  /* ----------Dark scheme color ----------- */
-  .dark-theme {
-    --background-color: var(--dark-grey);
-    --text-color: var(--white);
-    --button-background: var(--secondary-blue);
-    --button-background-hover: var(--secondary-blue-hover);
-    --button-accent-background: var(--accent-color-hover);
-    --button-accent-background-hover: var(--accent-color-dark);
-    --background-box-color: var(--dark-grey);
-  }
-
   /* ----------------- Font-sizing ------------- */
   --font-3xs: 8px;
   --font-2xs: 10px;
@@ -84,9 +73,33 @@
   --grey-border: 1px solid var(--grey);
   --white-outline: 2px solid var(--white);
 
+  /* ----------------- Effects style --------------- */
+  --background-transition: background-color 0.3s ease;
+  --all-transition: all 0.3s ease;
+  --box-shadow-dark: 0 2px 10px rgba(0, 0, 0, 0.1);
+  --box-shadow-white: 0 0 34px rgba(255, 255, 255, 0.5);
+  --box-shadow-dark-hover: 0 0 34px rgba(255, 255, 255, 0.8);
+  --box-shadow-white-hover: 0 0 34px rgba(255, 255, 255, 0.8);
+  --gradien-primary: radial-gradient(425.02px at 50% 50%, var(--secondary-blue) 0%, var(--primary-blue) 100%);
+  --box-shadow: var(--box-shadow-white);
+  --box-shadow-hover: var(--box-shadow-white-hover);
+
+  /* ----------Dark scheme color ----------- */
+  .dark-theme {
+    --background-color: var(--dark-grey);
+    --text-color: var(--white);
+    --button-background: var(--secondary-blue);
+    --button-background-hover: var(--secondary-blue-hover);
+    --button-accent-background: var(--accent-color-hover);
+    --button-accent-background-hover: var(--accent-color-dark);
+    --background-box-color: var(--dark-grey);
+    --box-shadow: var(--box-shadow-dark);
+    --box-shadow-hover: var(--box-shadow-dark-hover);
+  }
+
   /* ------------- Button styling ----------- */
   --button-padding: var(--spacing-2xs) var(--spacing-lg);
-  --button-border-radius: var(----button-radius);
+  --button-border-radius: var(--button-radius);
   --button-text-color: var(--white);
   --button-background: var(--primary-blue);
   --button-background-hover: var(--primary-blue-hover);
@@ -96,13 +109,6 @@
   --button-error-background-hover: var(--error-color-hover);
   --button-tab-background: var(--disabled);
   --button-tab-background-hover: var(--dark-grey);
-
-  /* ----------------- Effects style --------------- */
-  --background-transition: background-color 0.3s ease;
-  --all-transition: all 0.3s ease;
-  --box-shadow-dark: 0 2px 10px rgba(0, 0, 0, 0.1);
-  --box-shadow-white: 0 0 34px rgba(255, 255, 255, 0.5);
-  --gradien-primary: radial-gradient(425.02px at 50% 50%, var(--secondary-blue) 0%, var(--primary-blue) 100%);
 
   /* ---------------- Pallet colors ------------- */
   /* Palette 1: MFA Color Scheme */

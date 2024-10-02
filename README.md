@@ -2,7 +2,7 @@
 
 ## Сервіс для графічного відображення таблиць онлайн
 
-![Local Image](./src/assets/preview.jpg)
+![Local Image](./src/assets/readme.jpg)
 
 ## Для локального запуску проєкту треба ввести команду
 

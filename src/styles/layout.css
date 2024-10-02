@@ -12,7 +12,7 @@
 
 .dark-theme .header {
   background: var(--background-dark-color);
-  border-bottom: (--grey-border);
+  border-bottom: var(--grey-border);
 }
 
 .logo_wrapper {
@@ -22,8 +22,11 @@
 }
 
 .logo {
-  outline: var(--white-outline);
-  box-shadow: var(--box-shadow-white);
+  box-shadow: var(--box-shadow);
+  transition: var(--all-transition);
+}
+.logo:hover {
+  box-shadow: var(--box-shadow-hover);
 }
 
 .header-title {
